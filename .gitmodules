@@ -1,0 +1,3 @@
+[submodule "ext/mruby-milkv-duo"]
+	path = ext/mruby-milkv-duo
+	url = https://github.com/denko-rb/mruby-milkv-duo.git

@@ -1,0 +1,40 @@
+#
+# Copied from main gem, except:
+#   - Remove #block_until_read
+#   - Rework #read_using to be synchronous
+#
+module Denko
+  module Behaviors
+    module Reader
+      include Callbacks
+
+      #
+      # Default behavior for #read is to delegate to #_read.
+      # Define #_read in including classes.
+      #
+      def read(*args, **kwargs, &block)
+        read_using(self.method(:_read), *args, **kwargs, &block)
+      end
+
+      #
+      # Take a proc/lambda/method as the first agrument and use it to read.
+      # Arguments are passed through, allowing dynamic read methods to be defined.
+      # Eg. send commands (in args) to a bus, then wait for data read back.
+      #
+      # Block given is added as a one-time callback in the :read key, and
+      # the curent thread waits until data is received. Returns the result of
+      # calling #pre_callback_filter with the data.
+      #
+      def read_using(reader, *args, **kwargs, &block)
+        add_callback(:read, &block) if block_given?
+        return_value = reader.call(*args, **kwargs)
+        self.update(return_value)
+        return_value
+      end
+
+      def _read
+        raise NotImplementedError.new("#{self.class.name}#_read is not defined.")
+      end
+    end
+  end
+end
