@@ -68,12 +68,12 @@ module Denko
       end
 
       def frequency=(value)
-        _frequency = value
+        self._frequency = value
         pwm_enable
       end
 
       def resolution=(value)
-        _resolution = value
+        self._resolution = value
         pwm_enable
       end
 
@@ -82,8 +82,8 @@ module Denko
       end
 
       def pwm_enable(freq: nil, res: nil)
-        _frequency  = freq if freq
-        _resolution = res if res
+        self._frequency  = freq if freq
+        self._resolution = res if res
 
         board.set_pin_mode(pin, :output_pwm, pwm_settings_hash)
         @mode = :output_pwm
