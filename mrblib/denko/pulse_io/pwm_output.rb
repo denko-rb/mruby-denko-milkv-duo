@@ -8,8 +8,15 @@ module Denko
     class PWMOutput < DigitalIO::Output
       include Behaviors::Lifecycle
 
+      # Avoid setting :output mode if on PWM pin, and on a platform that muxes externally.
       before_initialize do
-        params[:mode] = :output_pwm
+        b = params[:board]
+        p = params[:pin]
+        params[:mode] = :output_pwm if b.pin_is_pwm?(p) && b.platform != :arduino
+      end
+      # Call #pwm_enable immediately if params[:mode] was overriden to :output_pwm.
+      after_initialize do
+        pwm_enable if params[:mode] == :output_pwm
       end
 
       def duty=(percent)
@@ -21,15 +28,19 @@ module Denko
       end
 
       def digital_write(value)
-        if board.platform == :arduino
-          pwm_disable if pwm_enabled
-          super(value)
-        else
-          if value == 1
-            pwm_write(period)
+        if pwm_enabled
+          if board.platform == :arduino
+            pwm_disable if pwm_enabled
+            super(value)
           else
-            pwm_write(0)
+            if value == 1
+              pwm_write(period)
+            else
+              pwm_write(0)
+            end
           end
+        else
+          super(value)
         end
       end
 

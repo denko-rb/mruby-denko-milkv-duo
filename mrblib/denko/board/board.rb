@@ -58,6 +58,10 @@ module Denko
       map
     end
 
+    def pin_is_pwm?(pin)
+      map[convert_pin(pin)].to_s[0..2].downcase == "pwm"
+    end
+
     # Get GPIO alerts from queue and run callbacks for single pin components.
     # Must be called periodically in the user script.
     def update
