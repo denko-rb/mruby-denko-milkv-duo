@@ -30,6 +30,7 @@ module Denko
     def analog_read_high
       4095
     end
+    alias :adc_high :analog_read_high
 
     # Milk-V Duo PWM write is in nanoseconds, so no PWM resolution needed.
     def analog_write_resolution
