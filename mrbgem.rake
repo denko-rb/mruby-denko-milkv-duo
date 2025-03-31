@@ -38,11 +38,17 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   # Board files
   spec.rbfiles += Dir.glob("#{dir}/#{MAIN_LIB_PATH}/*")
 
-  # Higher level component files
-  spec.rbfiles += Dir.glob("#{dir}/mrblib/denko/digital_io/*")
+  # Core IO classes
+  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/input.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/output.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/pulse_io/pwm_output.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input_helper.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input.rb"
 
+  # More Digital IO classes
+  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/button.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/relay.rb"
+
+  # Motor classes
   spec.rbfiles << "#{dir}/mrblib/denko/motor/servo.rb"
 end
