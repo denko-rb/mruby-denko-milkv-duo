@@ -52,6 +52,9 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   # More Analog IO classes
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/joystick.rb"
 
+  # LED Classes
+  spec.rbfiles << "#{dir}/mrblib/denko/led/base.rb"
+
   # Motor classes
   spec.rbfiles << "#{dir}/mrblib/denko/motor/servo.rb"
 end
