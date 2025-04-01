@@ -48,6 +48,7 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   # More Digital IO classes
   spec.rbfiles << "#{dir}/mrblib/denko/digital_io/button.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/digital_io/relay.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/rotary_encoder.rb"
 
   # More Analog IO classes
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/joystick.rb"
