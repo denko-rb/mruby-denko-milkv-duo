@@ -59,6 +59,7 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.rbfiles << "#{dir}/mrblib/denko/led/rgb.rb"
 
   # Motor classes
+  spec.rbfiles << "#{dir}/mrblib/denko/motor/l298.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/motor/servo.rb"
 
   # Display classes
