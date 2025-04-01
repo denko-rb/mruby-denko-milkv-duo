@@ -44,6 +44,7 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.rbfiles << "#{dir}/mrblib/denko/pulse_io/pwm_output.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input_helper.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/analog_io/potentiometer.rb"
 
   # More Digital IO classes
   spec.rbfiles << "#{dir}/mrblib/denko/digital_io/button.rb"

@@ -11,7 +11,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] Input
   - [x] Joystick
   - [ ] Output (not on Milk-V Duo)
-  - [ ] Potentiometer
+  - [x] Potentiometer
 
 - DigitalIO
   - [x] Button
@@ -19,7 +19,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] Output
   - [x] Relay
   - [x] RotaryEncoder
-  
+
 - Display
   - [ ] Canvas
   - [ ] HD44780
@@ -30,13 +30,13 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] Bus (Hardware)
   - [ ] BitBang
   - [ ] Peripheral
-  
+
 - LED
   - [ ] APA102
   - [x] Base
   - [x] RGB
   - [ ] SevenSegment
-  - [ ] WS2812  
+  - [ ] WS2812
 
 - Motor
   - [ ] L298
@@ -51,7 +51,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] Buzzer
   - [ ] IROutput
   - [x] PWMOutput
-  
+
 - RTC
   - [ ] DS3231
 
@@ -75,7 +75,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] InputRegister
   - [ ] OutputRegister
   - [ ] Peripheral
-  
+
 - UART
   - [ ] Hardware
   - [ ] BitBang
