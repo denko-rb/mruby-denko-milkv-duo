@@ -39,9 +39,9 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] WS2812
 
 - Motor
-  - [x] L298
+  - [x] A3967 (Stepper driver)
+  - [x] L298 (H-Bridge Driver)
   - [x] Servo
-  - [ ] Stepper
 
 - OneWire
   - [ ] Bus
