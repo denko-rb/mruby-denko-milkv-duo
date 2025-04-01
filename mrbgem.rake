@@ -44,7 +44,9 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.rbfiles << "#{dir}/mrblib/denko/pulse_io/pwm_output.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input_helper.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/analog_io/potentiometer.rb"
+
+  # SPI Classes
+  spec.rbfiles << "#{dir}/mrblib/denko/spi/base_register.rb"
 
   # More Digital IO classes
   spec.rbfiles << "#{dir}/mrblib/denko/digital_io/button.rb"
@@ -52,11 +54,13 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.rbfiles << "#{dir}/mrblib/denko/digital_io/rotary_encoder.rb"
 
   # More Analog IO classes
+  spec.rbfiles << "#{dir}/mrblib/denko/analog_io/potentiometer.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/joystick.rb"
 
   # LED Classes
   spec.rbfiles << "#{dir}/mrblib/denko/led/base.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/led/rgb.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/led/seven_segment.rb"
 
   # Motor classes
   spec.rbfiles << "#{dir}/mrblib/denko/motor/a3967.rb"
@@ -66,6 +70,7 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   # Display classes
   spec.rbfiles << "#{dir}/mrblib/denko/fonts.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/display/canvas.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/display/hd44780.rb"
 
   # Sensors
   spec.rbfiles << "#{dir}/mrblib/denko/sensor/generic_pir.rb"

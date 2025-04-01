@@ -22,7 +22,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
 
 - Display
   - [x] Canvas
-  - [ ] HD44780
+  - [x] HD44780
   - [ ] SH1106
   - [ ] SSD1306
 
@@ -35,7 +35,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] APA102
   - [x] Base
   - [x] RGB
-  - [ ] SevenSegment
+  - [x] SevenSegment
   - [ ] WS2812
 
 - Motor
