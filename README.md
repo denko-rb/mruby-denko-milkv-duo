@@ -21,7 +21,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] RotaryEncoder
 
 - Display
-  - [ ] Canvas
+  - [x] Canvas
   - [ ] HD44780
   - [ ] SH1106
   - [ ] SSD1306
