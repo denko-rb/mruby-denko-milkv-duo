@@ -66,4 +66,7 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   # Display classes
   spec.rbfiles << "#{dir}/mrblib/denko/fonts.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/display/canvas.rb"
+
+  # Sensors
+  spec.rbfiles << "#{dir}/mrblib/denko/sensor/generic_pir.rb"
 end

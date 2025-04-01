@@ -59,7 +59,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] AHT10/AHT20
   - [ ] BME280/BMP280
   - [ ] DHT
-  - [ ] GenericPIR
+  - [x] GenericPIR
   - [ ] HCSR04
   - [ ] HTU21D
   - [ ] HTU31D
