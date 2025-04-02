@@ -48,7 +48,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] Peripheral
 
 - PulseIO
-  - [ ] Buzzer
+  - [x] Buzzer
   - [ ] IROutput
   - [x] PWMOutput
 
