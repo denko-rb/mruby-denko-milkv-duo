@@ -23,13 +23,13 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
 - Display
   - [x] Canvas
   - [x] HD44780
-  - [ ] SH1106
-  - [ ] SSD1306
+  - [x] SH1106
+  - [x] SSD1306
 
 - I2C
   - [x] Bus (Hardware)
   - [ ] BitBang
-  - [ ] Peripheral
+  - [x] Peripheral
 
 - LED
   - [ ] APA102

@@ -7,9 +7,6 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.authors = 'vickash'
   spec.version = Denko::Board::VERSION
 
-  # Surely dependent on
-  # spec.add_dependency('mruby-onig-regexp', github: 'mattn/mruby-onig-regexp')
-
   spec.rbfiles = [
     # Pin and component setup behaviors
     "#{dir}/#{BEHAVIORS_PATH}/lifecycle.rb",
@@ -48,8 +45,12 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   # I2C Classes
   spec.rbfiles << "#{dir}/mrblib/denko/i2c/bus_common.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/i2c/bus.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/i2c/bit_bang.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/i2c/peripheral.rb"
 
   # SPI Classes
+  spec.rbfiles << "#{dir}/mrblib/denko/spi/bus.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/spi/bit_bang.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/spi/base_register.rb"
 
   # More Digital IO classes
@@ -78,6 +79,8 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.rbfiles << "#{dir}/mrblib/denko/fonts.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/display/canvas.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/display/hd44780.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/display/ssd1306.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/display/sh1106.rb"
 
   # Sensors
   spec.rbfiles << "#{dir}/mrblib/denko/sensor/generic_pir.rb"
