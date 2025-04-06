@@ -53,7 +53,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] PWMOutput
 
 - RTC
-  - [ ] DS3231
+  - [x] DS3231
 
 - Sensor
   - [ ] AHT10/AHT20
