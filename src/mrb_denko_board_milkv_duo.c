@@ -57,6 +57,11 @@ mrb_mruby_denko_board_milkv_duo_gem_init(mrb_state* mrb) {
 
   // SARADC
   mrb_define_method(mrb, mrb_Denko_Board, "_analog_read",     mrb_analog_read,        MRB_ARGS_REQ(1));
+
+  // I2C
+  mrb_define_method(mrb, mrb_Denko_Board, "i2c_setup",        mrb_i2c_setup,          MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, mrb_Denko_Board, "_i2c_write",       mrb_i2c_write,          MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, mrb_Denko_Board, "_i2c_read",        mrb_i2c_read,           MRB_ARGS_REQ(2));
 }
 
 void

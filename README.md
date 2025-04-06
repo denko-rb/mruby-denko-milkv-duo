@@ -27,7 +27,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] SSD1306
 
 - I2C
-  - [ ] Bus (Hardware)
+  - [x] Bus (Hardware)
   - [ ] BitBang
   - [ ] Peripheral
 

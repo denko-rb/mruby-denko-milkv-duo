@@ -45,6 +45,10 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input_helper.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input.rb"
 
+  # I2C Classes
+  spec.rbfiles << "#{dir}/mrblib/denko/i2c/bus_common.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/i2c/bus.rb"
+
   # SPI Classes
   spec.rbfiles << "#{dir}/mrblib/denko/spi/base_register.rb"
 
