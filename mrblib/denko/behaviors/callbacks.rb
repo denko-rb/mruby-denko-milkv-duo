@@ -38,8 +38,8 @@ module Denko
           return nil
         end
 
-        break unless @callbacks
-        break if @callbacks.empty?
+        return filtered_data unless @callbacks
+        return filtered_data if @callbacks.empty?
 
         @callbacks.each_value do |array|
           array.each do |callback|
@@ -50,7 +50,6 @@ module Denko
         @callbacks.delete(:read)
 
         update_state(filtered_data)
-        filtered_data
       end
 
       # Override to process data before giving to callbacks and state.
