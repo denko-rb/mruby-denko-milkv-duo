@@ -30,6 +30,6 @@ end
 
 # Keep getting events from the listen queue, so the encoder state updates.
 loop do
-  board.update
+  board.handle_listeners
   sleep 0.010
 end

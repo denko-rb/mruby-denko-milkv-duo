@@ -1,7 +1,6 @@
 #
 # Copied from main gem, except:
-#   - Remove #block_until_read
-#   - Rework #read_using to be synchronous
+#   - Remove #wait_for_read
 #
 module Denko
   module Behaviors
@@ -27,8 +26,14 @@ module Denko
       #
       def read_using(reader, *args, **kwargs, &block)
         add_callback(:read, &block) if block_given?
-        return_value = reader.call(*args, **kwargs)
-        self.update(return_value)
+
+        return_value = nil
+        add_callback(:read) do |filtered_data|
+          return_value = filtered_data
+        end
+
+        reader.call(*args, **kwargs)
+
         return_value
       end
 

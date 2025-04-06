@@ -7,6 +7,6 @@ input.listen do |level|
 end
 
 loop do
-  board.update
+  board.handle_listeners
   sleep 0.010
 end

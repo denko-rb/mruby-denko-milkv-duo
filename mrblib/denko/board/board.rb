@@ -62,15 +62,19 @@ module Denko
       map[convert_pin(pin)].to_s[0..2].downcase == "pwm"
     end
 
+    def update(pin, message)
+      if single_pin_components[pin]
+        single_pin_components[pin].update(message)
+      end
+    end
+
     # Get GPIO alerts from queue and run callbacks for single pin components.
     # Must be called periodically in the user script.
-    def update
+    def handle_listeners
       loop do
         alert = get_alert
         break unless alert
-        if single_pin_components[alert[:pin]]
-          single_pin_components[alert[:pin]].update(alert[:level])
-        end
+        update(alert[:pin], alert[:level])
       end
     end
   end

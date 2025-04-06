@@ -47,7 +47,11 @@ module Denko
     end
 
     # digital_write implemented in C
-    # digital_read implemented in C
+
+    def digital_read(pin)
+      self.udpate(pin, _digital_read(pin))
+    end
+
     # pwm_write implemented in C
 
     def dac_write(pin, value)
@@ -55,7 +59,7 @@ module Denko
     end
 
     def analog_read(pin, negative_pin=nil, gain=nil, sample_rate=nil)
-      _analog_read(pin)
+      self.update(pin, _analog_read(pin))
     end
 
     def set_listener(pin, state=:off, options={})

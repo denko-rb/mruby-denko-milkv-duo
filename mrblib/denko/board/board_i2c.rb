@@ -25,7 +25,7 @@ module Denko
           found << address
         end
       end
-      return found
+      update_i2c(index, found)
     end
 
     # Frequency ignored, locked at 400kHz. Repeated start unavailable

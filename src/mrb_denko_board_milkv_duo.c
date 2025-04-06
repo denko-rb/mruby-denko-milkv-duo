@@ -42,7 +42,7 @@ mrb_mruby_denko_board_milkv_duo_gem_init(mrb_state* mrb) {
   mrb_define_method(mrb, mrb_Denko_Board, "valid_gpio",       mrb_valid_gpio,         MRB_ARGS_REQ(1));
   mrb_define_method(mrb, mrb_Denko_Board, "_set_pin_mode",    mrb_pin_mode,           MRB_ARGS_REQ(2));
   mrb_define_method(mrb, mrb_Denko_Board, "digital_write",    mrb_digital_write,      MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, mrb_Denko_Board, "digital_read",     mrb_digital_read,       MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, mrb_Denko_Board, "_digital_read",    mrb_digital_read,       MRB_ARGS_REQ(1));
 
   // GPIO Alerts
   mrb_define_method(mrb, mrb_Denko_Board, "claim_alert",      mrb_claim_alert,        MRB_ARGS_REQ(1));
