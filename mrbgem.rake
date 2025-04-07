@@ -89,6 +89,7 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.rbfiles << "#{dir}/mrblib/denko/sensor/helper.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/sensor/generic_pir.rb"
   spec.rbfiles << "#{dir}/mrblib/denko/sensor/aht.rb"
+  spec.rbfiles << "#{dir}/mrblib/denko/sensor/bmp180.rb"
 
   # RTCS
   spec.rbfiles << "#{dir}/mrblib/denko/rtc/ds3231.rb"
