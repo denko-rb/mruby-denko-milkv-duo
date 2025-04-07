@@ -57,7 +57,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
 
 - Sensor
   - [x] AHT10/AHT20 (need AHT20 example)
-  - [ ] BME280/BMP280
+  - [x] BME280/BMP280
   - [x] BMP180
   - [ ] DHT
   - [x] GenericPIR
