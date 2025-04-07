@@ -30,7 +30,9 @@ module Denko
 
     # Frequency ignored, locked at 400kHz. Repeated start unavailable
     def i2c_write(index, address, bytes, frequency=100000, repeated_start=false)
+      bytes = [bytes] unless bytes.class == Array
       raise ArgumentError, "exceeded #{i2c_limit} bytes for #i2c_write" if bytes.length > i2c_limit
+
       result = _i2c_write(i2c_handle(index, address), bytes)
       i2c_c_error("write", result, index, address) if result < 0
       result
