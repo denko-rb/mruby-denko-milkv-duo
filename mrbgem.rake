@@ -33,7 +33,7 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   ]
 
   # BCD from the CRuby gem
-  spec.rbfiles += "#{dir}/ext/ruby_bcd/lib/bcd.rb"
+  spec.rbfiles << "#{dir}/ext/ruby_bcd/lib/bcd.rb"
 
   # Board files
   spec.rbfiles += Dir.glob("#{dir}/#{MAIN_LIB_PATH}/*")
