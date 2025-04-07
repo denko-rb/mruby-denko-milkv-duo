@@ -14,7 +14,7 @@ unless (i2c.found_devices.include? ADDRESS)
   return
 end
 
-puts "Using DS3231 RTC at address #{ADDRESS.to_s(16).upcase}"; puts
+puts "Using DS3231 RTC at address Ox#{ADDRESS.to_s(16).upcase}"; puts
 rtc = Denko::RTC::DS3231.new(bus: i2c, address: ADDRESS)
 
 t = Time.now
