@@ -68,7 +68,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] QMP6988
   - [ ] RCWL9620
   - [ ] SHT3X
-  - [ ] VL53L0X
+  - [x] VL53L0X
 
 - SPI
   - [ ] Bus (Hardware)
