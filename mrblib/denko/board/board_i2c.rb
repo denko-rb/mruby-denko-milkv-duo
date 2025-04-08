@@ -16,7 +16,7 @@ module Denko
     end
 
     def i2c_search(index)
-      # Prepend 0 (invalid address) so
+      # Prepend 0 (invalid address) to avoid bus treating this as peripheral data.
       found = [0]
       I2C_ADDRESS_RANGE.each do |address|
         handle = i2c_handle(index, address)

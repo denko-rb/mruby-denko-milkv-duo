@@ -62,6 +62,12 @@ mrb_mruby_denko_board_milkv_duo_gem_init(mrb_state* mrb) {
   mrb_define_method(mrb, mrb_Denko_Board, "i2c_setup",        mrb_i2c_setup,          MRB_ARGS_REQ(2));
   mrb_define_method(mrb, mrb_Denko_Board, "_i2c_write",       mrb_i2c_write,          MRB_ARGS_REQ(2));
   mrb_define_method(mrb, mrb_Denko_Board, "_i2c_read",        mrb_i2c_read,           MRB_ARGS_REQ(2));
+
+  // Bit-bang I2C
+  mrb_define_method(mrb, mrb_Denko_Board, "i2c_bb_setup",     mrb_i2c_bb_setup,       MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, mrb_Denko_Board, "_i2c_bb_search",   mrb_i2c_bb_search,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, mrb_Denko_Board, "_i2c_bb_read",     mrb_i2c_bb_read,        MRB_ARGS_REQ(4));
+  mrb_define_method(mrb, mrb_Denko_Board, "_i2c_bb_write",    mrb_i2c_bb_write,       MRB_ARGS_REQ(4));
 }
 
 void
