@@ -21,9 +21,7 @@ module Denko
       I2C_ADDRESS_RANGE.each do |address|
         handle = i2c_handle(index, address)
         bytes = _i2c_read(handle, 1)
-        if (bytes.class == Array) && (bytes[0]) > 0
-          found << address
-        end
+        found << address if (bytes.class == Array)
       end
       update_i2c(index, found)
     end
