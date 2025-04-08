@@ -60,6 +60,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] BME280/BMP280
   - [x] BMP180
   - [ ] DHT
+  - [ ] DS18B20
   - [x] GenericPIR
   - [ ] HCSR04
   - [x] HTU21D
@@ -67,7 +68,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] JSNSR04T
   - [ ] QMP6988
   - [ ] RCWL9620
-  - [ ] SHT3X
+  - [x] SHT3X
   - [x] VL53L0X
 
 - SPI
