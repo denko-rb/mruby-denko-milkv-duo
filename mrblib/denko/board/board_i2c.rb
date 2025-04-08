@@ -41,7 +41,7 @@ module Denko
       handle = i2c_handle(index, address)
 
       if register
-        register = [register].flatten
+        register = [register] unless register.class == Array
         result = _i2c_write(handle, register)
         i2c_c_error("read (register write)", result, index, address) if result < 0
       end
