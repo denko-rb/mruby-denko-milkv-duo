@@ -66,8 +66,8 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] HTU21D
   - [x] HTU31D
   - [ ] JSNSR04T
-  - [ ] QMP6988
   - [ ] RCWL9620
+  - [x] QMP6988 (only working on I2C::BitBang buses)
   - [x] SHT3X
   - [x] VL53L0X
 
