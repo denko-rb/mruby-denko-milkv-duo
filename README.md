@@ -69,6 +69,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] RCWL9620
   - [x] QMP6988 (only working on I2C::BitBang buses)
   - [x] SHT3X
+  - [x] SHT4X (new, heater not implemented yet, only working on I2C::BitBang buses)
   - [x] VL53L0X
 
 - SPI
