@@ -3,7 +3,7 @@ module Denko
     include Behaviors::Subcomponents
 
     def platform
-      :linux
+      :linux_milkv_duo
     end
 
     def initialize
