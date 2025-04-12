@@ -12,7 +12,7 @@ module Denko
     # i2c_bb_search defined in C
 
     def i2c_bb_write(scl, sda, address, bytes, repeated_start=false)
-      bytes = [bytes] unless bytes.class == Array
+      bytes = [bytes].flatten unless bytes.class == Array
       _i2c_bb_write(scl, sda, address, bytes)
     end
 

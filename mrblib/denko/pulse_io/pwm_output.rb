@@ -1,19 +1,17 @@
-#
-# Copied from main gem, except:
-#   - Removed call to interrupt_with
-#   - Improved handling of Linux boards vs. Arduino MCUs (needs to be ported to CRuby gem)
-#
 module Denko
   module PulseIO
     class PWMOutput < DigitalIO::Output
       include Behaviors::Lifecycle
 
+      interrupt_with :write, :pwm_write, :digital_write, :duty=
+
       # Avoid setting :output mode if on PWM pin, and on a platform that muxes externally.
       before_initialize do
         b = params[:board]
         p = params[:pin]
-        params[:mode] = :output_pwm if b.pin_is_pwm?(p) && b.platform != :arduino
+        params[:mode] = :output_pwm if b.platform != :arduino && b.pin_is_pwm?(p)
       end
+
       # Call #pwm_enable immediately if params[:mode] was overriden to :output_pwm.
       after_initialize do
         pwm_enable if params[:mode] == :output_pwm
@@ -92,9 +90,9 @@ module Denko
         { frequency: frequency, period: period, resolution: resolution }
       end
 
-      def pwm_enable(freq: nil, res: nil)
-        self._frequency  = freq if freq
-        self._resolution = res if res
+      def pwm_enable(frequency: nil, resolution: nil)
+        self._frequency  = frequency if frequency
+        self._resolution = resolution if resolution
 
         board.set_pin_mode(pin, :output_pwm, pwm_settings_hash)
         @mode = :output_pwm

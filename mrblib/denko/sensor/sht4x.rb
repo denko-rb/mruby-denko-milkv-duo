@@ -1,12 +1,8 @@
-#
-# Should work in Cruby, except:
-#   - No include Behavior::Poller
-#   - No calls to #state_mutex
-#
 module Denko
   module Sensor
     class SHT4X
       include I2C::Peripheral
+      include Behaviors::Poller
       include Behaviors::Lifecycle
       include TemperatureHelper
       include HumidityHelper
@@ -43,18 +39,12 @@ module Denko
       end
 
       def _read
-        @read_mode = :data
         i2c_write [@measurement_command]
         sleep(@measurement_time)
         i2c_read(6)
       end
 
       def pre_callback_filter(bytes)
-        if @read_mode == :serial
-          parse_serial(bytes)
-          return nil
-        end
-
         # Temperature is bytes 0 to 2: MSB, LSB, CRC
         if calculate_crc(bytes[0..2]) == bytes[2]
           t_raw = (bytes[0] << 8) | bytes[1]
@@ -74,18 +64,12 @@ module Denko
         reading
       end
 
-      def parse_serial(bytes)
-        # Serial bytes are laid out as [b0, b1, crc0+1, b2, b3, crc2+3]
-        if calculate_crc(bytes[0..2]) == bytes[2] && calculate_crc(bytes[3..5]) == bytes[5]
-          @serial = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[3] << 8) | bytes[4]
-        else
-          @serial = nil
-        end
-      end
-
       def update_state(reading)
+        @state_mutex.lock
         @state[:temperature] = reading[:temperature]
         @state[:humidity]    = reading[:humidity]
+        @state_mutex.unlock
+        @state
       end
 
       def reset
@@ -94,15 +78,23 @@ module Denko
       end
 
       def serial
-        read_serial unless @serial
-        @serial
+        @serial ||= read_serial
       end
 
       def read_serial
-        @read_mode = :serial
         i2c_write [READ_SERIAL_NUMBER]
         sleep RESET_TIME
-        i2c_read_blocking(6)
+        bytes = i2c_read_raw(6)
+        parse_serial(bytes)
+      end
+
+      def parse_serial(bytes)
+        # Serial bytes are laid out as [b0, b1, crc0+1, b2, b3, crc2+3]
+        if calculate_crc(bytes[0..2]) == bytes[2] && calculate_crc(bytes[3..5]) == bytes[5]
+          @serial = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[3] << 8) | bytes[4]
+        else
+          @serial = nil
+        end
       end
 
       # CRC is same as AHT20 sensor. Copied from that file.
