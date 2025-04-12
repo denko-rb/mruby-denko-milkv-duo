@@ -90,10 +90,12 @@ MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
 
   # Display classes
   spec.rbfiles << "#{ext_lib_dir}/fonts.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/canvas.rb"
   spec.rbfiles << "#{ext_lib_dir}/display/hd44780.rb"
+  spec.rbfiles << "#{ext_lib_dir}/display/canvas.rb"
+  spec.rbfiles << "#{ext_lib_dir}/display/mono_oled.rb"
   spec.rbfiles << "#{ext_lib_dir}/display/ssd1306.rb"
   spec.rbfiles << "#{ext_lib_dir}/display/sh1106.rb"
+  spec.rbfiles << "#{ext_lib_dir}/display/sh1107.rb"
 
   # Sensors
   spec.rbfiles << "#{ext_lib_dir}/sensor/helper.rb"
