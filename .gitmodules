@@ -4,3 +4,6 @@
 [submodule "ext/ruby_bcd"]
 	path = ext/ruby_bcd
 	url = https://github.com/dafyddcrosby/ruby_bcd.git
+[submodule "ext/denko"]
+	path = ext/denko
+	url = https://github.com/denko-rb/denko
