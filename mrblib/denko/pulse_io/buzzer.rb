@@ -1,8 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Remove #stop which tries to stop a thread
-#   - Instead alias #stop and #off to #no_tone
-#
 module Denko
   module PulseIO
     class Buzzer < PWMOutput

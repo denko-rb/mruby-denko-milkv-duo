@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - x._read changed to x.read in #read
-#
 module Denko
   module AnalogIO
     class Joystick
@@ -72,7 +68,6 @@ module Denko
       end
 
       def read
-        # Blocking read only for last axis read.
         x.read
         y.read
         state

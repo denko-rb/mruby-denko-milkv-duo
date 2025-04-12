@@ -1,19 +1,27 @@
-#
-# Copied from main gem, except:
-#   - Remove mutex
-#   - Remove protected
-#
 module Denko
   module Behaviors
     module State
       include Lifecycle
 
-      # Force state initialization.
+      # Force state and mutex initialization.
       after_initialize do
+        @state_mutex = Denko.gil? ? Denko::MutexStub.new : Mutex.new
         state
       end
 
-      attr_accessor :state
+      def state
+        @state_mutex.lock
+        value = @state
+        @state_mutex.unlock
+        value
+      end
+
+      def state=(value)
+        @state_mutex.lock
+        @state = value
+        @state_mutex.unlock
+        @state
+      end
 
       def update_state(value)
         self.state = value if value

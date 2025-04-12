@@ -1,104 +1,112 @@
-MAIN_LIB_PATH = "mrblib/denko/board"
-BEHAVIORS_PATH = "mrblib/denko/behaviors"
-require_relative "#{MAIN_LIB_PATH}/version"
+require_relative "mrblib/denko/version"
 
 MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
   spec.license = 'MIT'
   spec.authors = 'vickash'
   spec.version = Denko::Board::VERSION
 
+  main_lib_dir = "#{dir}/mrblib/denko"
+  behaviors_dir = "#{main_lib_dir}/behaviors"
+
+  # Essentials
   spec.rbfiles = [
-    # Pin and component setup behaviors
-    "#{dir}/#{BEHAVIORS_PATH}/lifecycle.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/state.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/component.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/single_pin.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/input_pin.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/output_pin.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/multi_pin.rb",
-
-    # Subcomponent behaviors
-    "#{dir}/#{BEHAVIORS_PATH}/subcomponents.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/bus_controller.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/bus_controller_addressed.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/bus_peripheral.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/bus_peripheral_addressed.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/board_proxy.rb",
-
-    # Input and callback behaviors
-    "#{dir}/#{BEHAVIORS_PATH}/callbacks.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/reader.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/poller.rb",
-    "#{dir}/#{BEHAVIORS_PATH}/listener.rb",
+    "#{dir}/ext/ruby_bcd/lib/bcd.rb",
+    "#{main_lib_dir}/version.rb",
+    "#{main_lib_dir}/denko.rb",
+    "#{main_lib_dir}/mutex_stub.rb",
   ]
 
-  # BCD from the CRuby gem
-  spec.rbfiles << "#{dir}/ext/ruby_bcd/lib/bcd.rb"
+  # Behaviors
+  spec.rbfiles += [
+    # Pin and component setup behaviors
+    "#{behaviors_dir}/lifecycle.rb",
+    "#{behaviors_dir}/state.rb",
+    "#{behaviors_dir}/component.rb",
+    "#{behaviors_dir}/single_pin.rb",
+    "#{behaviors_dir}/input_pin.rb",
+    "#{behaviors_dir}/output_pin.rb",
+    "#{behaviors_dir}/multi_pin.rb",
+
+    # Subcomponent behaviors
+    "#{behaviors_dir}/subcomponents.rb",
+    "#{behaviors_dir}/bus_controller.rb",
+    "#{behaviors_dir}/bus_controller_addressed.rb",
+    "#{behaviors_dir}/bus_peripheral.rb",
+    "#{behaviors_dir}/bus_peripheral_addressed.rb",
+    "#{behaviors_dir}/board_proxy.rb",
+
+    # Input and callback behaviors
+    "#{behaviors_dir}/callbacks.rb",
+    "#{behaviors_dir}/reader.rb",
+    "#{behaviors_dir}/threaded.rb",
+    "#{behaviors_dir}/poller.rb",
+    "#{behaviors_dir}/listener.rb",
+  ]
 
   # Board files
-  spec.rbfiles += Dir.glob("#{dir}/#{MAIN_LIB_PATH}/*")
+  spec.rbfiles += Dir.glob("#{main_lib_dir}/board/*")
 
   # Core IO classes
-  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/input.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/output.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/c_bit_bang.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/pulse_io/pwm_output.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input_helper.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/analog_io/input.rb"
+  spec.rbfiles << "#{main_lib_dir}/digital_io/input.rb"
+  spec.rbfiles << "#{main_lib_dir}/digital_io/output.rb"
+  spec.rbfiles << "#{main_lib_dir}/digital_io/c_bit_bang.rb"
+  spec.rbfiles << "#{main_lib_dir}/pulse_io/pwm_output.rb"
+  spec.rbfiles << "#{main_lib_dir}/analog_io/input_helper.rb"
+  spec.rbfiles << "#{main_lib_dir}/analog_io/input.rb"
 
   # I2C Classes
-  spec.rbfiles << "#{dir}/mrblib/denko/i2c/bus_common.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/i2c/bus.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/i2c/bit_bang.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/i2c/peripheral.rb"
+  spec.rbfiles << "#{main_lib_dir}/i2c/bus_common.rb"
+  spec.rbfiles << "#{main_lib_dir}/i2c/bus.rb"
+  spec.rbfiles << "#{main_lib_dir}/i2c/bit_bang.rb"
+  spec.rbfiles << "#{main_lib_dir}/i2c/peripheral.rb"
 
   # SPI Classes
-  spec.rbfiles << "#{dir}/mrblib/denko/spi/bus.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/spi/bit_bang.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/spi/base_register.rb"
+  spec.rbfiles << "#{main_lib_dir}/spi/bus.rb"
+  spec.rbfiles << "#{main_lib_dir}/spi/bit_bang.rb"
+  spec.rbfiles << "#{main_lib_dir}/spi/base_register.rb"
 
   # More Digital IO classes
-  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/button.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/relay.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/digital_io/rotary_encoder.rb"
+  spec.rbfiles << "#{main_lib_dir}/digital_io/button.rb"
+  spec.rbfiles << "#{main_lib_dir}/digital_io/relay.rb"
+  spec.rbfiles << "#{main_lib_dir}/digital_io/rotary_encoder.rb"
 
   # More Analog IO classes
-  spec.rbfiles << "#{dir}/mrblib/denko/analog_io/potentiometer.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/analog_io/joystick.rb"
+  spec.rbfiles << "#{main_lib_dir}/analog_io/potentiometer.rb"
+  spec.rbfiles << "#{main_lib_dir}/analog_io/joystick.rb"
 
   # More Pulse IO classes
-  spec.rbfiles << "#{dir}/mrblib/denko/pulse_io/buzzer.rb"
+  spec.rbfiles << "#{main_lib_dir}/pulse_io/buzzer.rb"
 
   # LED Classes
-  spec.rbfiles << "#{dir}/mrblib/denko/led/base.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/led/rgb.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/led/seven_segment.rb"
+  spec.rbfiles << "#{main_lib_dir}/led/base.rb"
+  spec.rbfiles << "#{main_lib_dir}/led/rgb.rb"
+  spec.rbfiles << "#{main_lib_dir}/led/seven_segment.rb"
 
   # Motor classes
-  spec.rbfiles << "#{dir}/mrblib/denko/motor/a3967.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/motor/l298.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/motor/servo.rb"
+  spec.rbfiles << "#{main_lib_dir}/motor/a3967.rb"
+  spec.rbfiles << "#{main_lib_dir}/motor/l298.rb"
+  spec.rbfiles << "#{main_lib_dir}/motor/servo.rb"
 
   # Display classes
-  spec.rbfiles << "#{dir}/mrblib/denko/fonts.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/display/canvas.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/display/hd44780.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/display/ssd1306.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/display/sh1106.rb"
+  spec.rbfiles << "#{main_lib_dir}/fonts.rb"
+  spec.rbfiles << "#{main_lib_dir}/display/canvas.rb"
+  spec.rbfiles << "#{main_lib_dir}/display/hd44780.rb"
+  spec.rbfiles << "#{main_lib_dir}/display/ssd1306.rb"
+  spec.rbfiles << "#{main_lib_dir}/display/sh1106.rb"
 
   # Sensors
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/helper.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/generic_pir.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/aht.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/bme280.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/bmp180.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/htu21d.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/htu31d.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/qmp6988.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/sht3x.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/sht4x.rb"
-  spec.rbfiles << "#{dir}/mrblib/denko/sensor/vl53l0x.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/helper.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/generic_pir.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/aht.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/bme280.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/bmp180.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/htu21d.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/htu31d.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/qmp6988.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/sht3x.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/sht4x.rb"
+  spec.rbfiles << "#{main_lib_dir}/sensor/vl53l0x.rb"
 
   # RTCS
-  spec.rbfiles << "#{dir}/mrblib/denko/rtc/ds3231.rb"
+  spec.rbfiles << "#{main_lib_dir}/rtc/ds3231.rb"
 end

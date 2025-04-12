@@ -1,6 +1,3 @@
-#
-# Copied from main gem
-#
 module Denko
   module DigitalIO
     class Relay < Output

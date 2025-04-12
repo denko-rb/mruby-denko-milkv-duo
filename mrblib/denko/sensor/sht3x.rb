@@ -1,12 +1,8 @@
-#
-# Copied from main gem, except:
-#   - Removed include Behavior::Poller
-#   - Removed calls to #state_mutex
-#
 module Denko
   module Sensor
     class SHT3X
       include I2C::Peripheral
+      include Behaviors::Poller
       include Behaviors::Lifecycle
       include TemperatureHelper
       include HumidityHelper
@@ -76,8 +72,11 @@ module Denko
       end
 
       def update_state(reading)
+        @state_mutex.lock
         @state[:temperature] = reading[:temperature]
         @state[:humidity]    = reading[:humidity]
+        @state_mutex.unlock
+        @state
       end
 
       def reset

@@ -1,8 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Removed require call at top
-#   - Change handling of weekday in #time_to_bcd, since no Time#strftime
-#
 module Denko
   module RTC
     class DS3231

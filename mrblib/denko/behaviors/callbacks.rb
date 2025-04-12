@@ -1,23 +1,32 @@
-#
-# Copied from main gem, except:
-#   - Remove mutex
-#   - #update returns filtered_data
-#
 module Denko
   module Behaviors
     module Callbacks
+      include Lifecycle
       include State
 
-      attr_reader :callbacks
+      after_initialize do
+        @callback_mutex = Denko.gil? ? Denko::MutexStub.new : Mutex.new
+        callbacks
+      end
+
+      def callbacks
+        @callbacks ||= {}
+      end
 
       def add_callback(key=:persistent, &block)
+        @callback_mutex.lock
         @callbacks      ||= {}
         @callbacks[key] ||= []
         @callbacks[key] << block
+        @callback_mutex.unlock
+        @callbacks
       end
 
       def remove_callback(key=nil)
+        @callback_mutex.lock
         (@callbacks && key) ? @callbacks.delete(key) : @callbacks = {}
+        @callback_mutex.unlock
+        @callbacks
       end
 
       alias :on_data :add_callback
@@ -38,16 +47,17 @@ module Denko
           return nil
         end
 
-        return filtered_data unless @callbacks
-        return filtered_data if @callbacks.empty?
-
-        @callbacks.each_value do |array|
-          array.each do |callback|
-            callback.call(filtered_data)
+        @callback_mutex.lock
+        if @callbacks && !@callbacks.empty?
+          @callbacks.each_value do |array|
+            array.each do |callback|
+              callback.call(filtered_data)
+            end
           end
+          # Remove one-time callbacks added by #read.
+          @callbacks.delete(:read)
         end
-        # Remove one-time callbacks added by #read.
-        @callbacks.delete(:read)
+        @callback_mutex.unlock
 
         update_state(filtered_data)
       end

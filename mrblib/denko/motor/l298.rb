@@ -1,6 +1,3 @@
-#
-# Copied from main gem
-#
 module Denko
   module Motor
     class L298

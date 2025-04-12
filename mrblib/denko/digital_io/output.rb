@@ -1,16 +1,20 @@
-#
-# Copied from main gem, except:
-#   - Remove Behaviors::Threaded
-#   - Remove call to .interrupt_with
-#   - Remove #digital_read in call to .after_initialize
-#   - Remove Behaviors::Callback
-#   - Remove #pre_callback_filter
-#
 module Denko
   module DigitalIO
     class Output
       include Behaviors::OutputPin
+      include Behaviors::Callbacks
+      include Behaviors::Threaded
       include Behaviors::Lifecycle
+
+      interrupt_with :digital_write
+
+      after_initialize do
+        board.digital_read(pin)
+      end
+
+      def pre_callback_filter(board_state)
+        board_state.to_i
+      end
 
       def digital_write(value)
         @board.digital_write(@pin, value)

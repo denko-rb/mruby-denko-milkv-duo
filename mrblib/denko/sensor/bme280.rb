@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Removed calls to #state_mutex
-#
 module Denko
   module Sensor
     class BME280
@@ -85,7 +81,7 @@ module Denko
       end
 
       def state
-        @state = { temperature: nil, humidity: nil, pressure: nil }
+        @state ||= { temperature: nil, humidity: nil, pressure: nil }
       end
 
       def reading
@@ -185,34 +181,9 @@ module Denko
         i2c_read 8, register: 0xF7
       end
 
-      def pre_callback_filter(data)
-        if data.length == 8
-          return decode_reading(data)
-        elsif data.length == 26
-          process_calibration_a(data)
-          return nil
-        elsif data.length == 7
-          process_calibration_b(data)
-          return nil
-        else
-          # Ignores readings that aren't 8 bytes.
-          return nil
-        end
-      end
+      def pre_callback_filter(bytes)
+        return nil unless bytes.length == 8
 
-      def update_state(reading)
-        # Checking for Hash ignores calibration data and nil.
-        if reading.class == Hash
-          @state[:temperature] = reading[:temperature]
-          @state[:pressure]    = reading[:pressure]
-          @state[:humidity]    = reading[:humidity]
-        end
-      end
-
-      #
-      # Decoding Methods
-      #
-      def decode_reading(bytes)
         # Always read temperature since t_fine is needed to calibrate other values.
         temperature, t_fine = decode_temperature(bytes)
         reading[:temperature] = temperature
@@ -224,6 +195,18 @@ module Denko
         reading
       end
 
+      def update_state(reading)
+        @state_mutex.lock
+        @state[:temperature] = reading[:temperature]
+        @state[:pressure]    = reading[:pressure]
+        @state[:humidity]    = reading[:humidity]
+        @state_mutex.unlock
+        @state
+      end
+
+      #
+      # Decoding Methods
+      #
       def decode_temperature(bytes)
         # Reformat raw temeprature bytes (20-bits in 24) to uint32.
         adc_t = ((bytes[3] << 16) | (bytes[4] << 8) | (bytes[5])) >> 4
@@ -295,12 +278,14 @@ module Denko
       attr_reader :calibration_data_loaded
 
       def get_calibration_data
-        # First group of calibration bytes, sent to #process_calibration_a.
-        read_using -> { i2c_read(26, register: 0x88) }
+        # Calibration A
+        cal_a_bytes = i2c_read_raw(26, register: 0x88)
+        process_calibration_a(cal_a_bytes) if cal_a_bytes
 
-        # Second group of calibration bytes, only on BME280, sent to #process_calibration_b.
+        # Calibration B, only on BME280.
         if humidity_available?
-          read_using -> { i2c_read(7, register: 0xE1) }
+          cal_b_bytes = i2c_read_raw(7, register: 0xE1)
+          process_calibration_b(cal_b_bytes) if cal_b_bytes
         end
 
         if (@calibration[:cal_a] && @calibration[:cal_b]) || (@calibration[:cal_a] && !humidity_available?)

@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Removed calls to #state_mutex
-#
 module Denko
   module Sensor
     class AHT10
@@ -73,7 +69,8 @@ module Denko
       end
 
       def read_status_register
-        read_using -> { i2c_read(1, register: READ_STATUS_REGISTER) }
+        bytes = i2c_read_raw(1, register: READ_STATUS_REGISTER)
+        @status_register = bytes[0] if bytes
         sleep(COMMAND_DELAY)
       end
 
@@ -84,12 +81,6 @@ module Denko
       end
 
       def pre_callback_filter(bytes)
-        # Handle reading status byte only.
-        if bytes.length == 1
-          @status_register = bytes[0]
-          return nil
-        end
-
         # Normal readings are 6 bytes given as:
         #   [STATUS, H19-H12, H11-H4, H3-H0+T19-T16, T15-T8, T7-T0]
         @status_register = bytes[0]
@@ -106,8 +97,11 @@ module Denko
       end
 
       def update_state(reading)
+        @state_mutex.lock
         @state[:temperature] = reading[:temperature]
         @state[:humidity]    = reading[:humidity]
+        @state_mutex.unlock
+        @state
       end
     end
   end

@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Updated to use RGB percentages and #duty= instead of 8-bit values.
-#
 module Denko
   module LED
     class RGB

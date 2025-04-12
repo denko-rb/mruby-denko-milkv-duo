@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Remove call to require_relative at top
-#
 module Denko
   module Display
     class SSD1306

@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Remove mutex from #atomically
-#
 module Denko
   module Behaviors
     module BusPeripheral
@@ -15,7 +11,9 @@ module Denko
       end
 
       def atomically(&block)
-        block.call
+        bus.mutex.synchronize do
+          block.call
+        end
       end
     end
   end

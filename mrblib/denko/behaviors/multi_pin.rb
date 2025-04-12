@@ -1,8 +1,3 @@
-#
-# Copied from main gem, except:
-#  - Remove private
-#  - attr_accessor instead of separate attr_reader and private attr_writer
-#
 module Denko
   module Behaviors
     module MultiPin
@@ -13,8 +8,7 @@ module Denko
       include Component
       include Lifecycle
 
-      attr_reader   :pin
-      attr_accessor :pins, :proxies
+      attr_reader :pin, :pins, :proxies
 
       def proxies
         @proxies ||= {}
@@ -30,7 +24,7 @@ module Denko
       end
 
       def convert_pins(options={})
-        self.pins = {}
+        @pins = {}
         params[:pins].each { |key,pin| self.pins[key] = board.convert_pin(pin) }
         pin_array = pins.values
         raise ArgumentError, "duplicate pins in: #{pins.inspect}" unless pin_array == pin_array.uniq

@@ -1,7 +1,4 @@
 #
-# Copied from main gem
-#
-#
 # Ruby implementation of Hitach HD44780 LCD support.
 # Based on the Adafruit_LiquidCrystal library:
 # https://github.com/adafruit/Adafruit_LiquidCrystal

@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#  - Remove protected
-#
 module Denko
   module Behaviors
     module SinglePin

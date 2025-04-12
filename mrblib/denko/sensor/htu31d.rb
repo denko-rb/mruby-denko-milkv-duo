@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Removed calls to #state_mutex
-#
 module Denko
   module Sensor
     class HTU31D
@@ -161,8 +157,11 @@ module Denko
       end
 
       def update_state(reading)
+        @state_mutex.lock
         @state[:temperature] = reading[:temperature]
         @state[:humidity]    = reading[:humidity]
+        @state_mutex.unlock
+        @state
       end
 
       #

@@ -1,16 +1,9 @@
-#
-# Copied from main gem, except:
-#   - Remove Behaviors::Poller
-#   - Remove Behaviors::Listener
-#   - Remove #divider
-#   - Remove #_listen
-#   - Added Behaviors::Reader
-#
 module Denko
   module AnalogIO
     class Input
       include Behaviors::InputPin
-      include Behaviors::Reader
+      include Behaviors::Poller
+      include Behaviors::Listener
       include InputHelper
       include Behaviors::Lifecycle
 
@@ -20,6 +13,11 @@ module Denko
           params[:board] = params[:adc]
           params.delete(:adc)
         end
+      end
+
+      # Default 16ms listener for analog inputs connected to a Board.
+      def divider
+        @divider ||= params[:divider] || 16
       end
 
       # Negative input on ADCs that support it.
@@ -44,6 +42,11 @@ module Denko
 
       def _read
         board.analog_read(pin, negative_pin, gain, sample_rate)
+      end
+
+      def _listen(div=nil)
+        self.divider = div if div
+        board.analog_listen(pin, divider)
       end
     end
   end

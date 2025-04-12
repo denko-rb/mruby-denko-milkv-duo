@@ -1,7 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Added call to board#i2c_bb_setup in after_initialize (port to CRuby with a stub)
-#
 module Denko
   module I2C
     class BitBang

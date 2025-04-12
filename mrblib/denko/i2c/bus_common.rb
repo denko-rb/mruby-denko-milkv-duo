@@ -1,9 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Updated #search to handle results as Array or String
-#   - Fixed a bug in #bubble_callbacks where the read array was being mutated
-#   - Both changes should be ported back to CRuby
-#
 module Denko
   module I2C
     module BusCommon

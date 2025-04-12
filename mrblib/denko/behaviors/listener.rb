@@ -1,8 +1,3 @@
-#
-# Copied from main gem, except:
-#   - Change super if defined?(super) to
-#   -   begin; super; rescue NoMethodError; end
-#
 module Denko
   module Behaviors
     module Listener
@@ -15,16 +10,18 @@ module Denko
       # which should be defined in the including class.
       #
       def listen(divider=nil, &block)
-        @divider = divider || @listener
+        @divider = divider
         stop
         add_callback(:listen, &block) if block_given?
         _listen(@divider)
+        @listening = true
       end
 
       def stop
         begin; super; rescue NoMethodError; end
         _stop_listener
         remove_callbacks :listen
+        @listening = false
       end
     end
   end

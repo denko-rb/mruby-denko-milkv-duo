@@ -1,17 +1,30 @@
-#
-# Copied from main gem and disabled:
-#   - No threading on mruby, so no background polling, raise NotImplemented Error.
-#   - Change super if defined?(super) to
-#   -   begin; super; rescue NoMethodError; end
-#
 module Denko
   module Behaviors
     module Poller
       include Reader
-      # include Threaded
+      include Threaded
 
       def poll_using(method, interval, *args, &block)
-        raise NotImplementedError, "Background thread polling not available in mruby"
+        mruby_thread_check
+
+        unless [Integer, Float].include? interval.class
+          raise ArgumentError, "wrong interval given to #poll : #{interval.inspect}"
+        end
+
+        stop
+        add_callback(:poll, &block) if block_given?
+
+        threaded_loop do
+          # Lock, THEN wait for other normal reads to finish.
+          @reader_mutex.lock
+          sleep 0.001 while read_busy?
+          @reading_normally = true
+
+          method.call(*args)
+          @reader_mutex.unlock
+
+          sleep interval
+        end
       end
 
       def poll(interval, *args, &block)
