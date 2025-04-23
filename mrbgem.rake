@@ -1,6 +1,6 @@
 require_relative "mrblib/denko/version"
 
-MRuby::Gem::Specification.new('mruby-denko-board-milkv-duo') do |spec|
+MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.license = 'MIT'
   spec.authors = 'vickash'
   spec.version = Denko::Board::VERSION

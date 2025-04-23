@@ -2,7 +2,7 @@
 #include "../ext/mruby-milkv-duo/src/mrb_milkv_duo.c"
 
 void
-mrb_mruby_denko_board_milkv_duo_gem_init(mrb_state* mrb) {
+mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   // Denko module
   struct RClass *mrb_Denko = mrb_define_module(mrb, "Denko");
 
@@ -71,5 +71,5 @@ mrb_mruby_denko_board_milkv_duo_gem_init(mrb_state* mrb) {
 }
 
 void
-mrb_mruby_denko_board_milkv_duo_gem_final(mrb_state* mrb) {
+mrb_mruby_denko_milkv_duo_gem_final(mrb_state* mrb) {
 }
