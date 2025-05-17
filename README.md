@@ -24,13 +24,22 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] Output
   - [x] Relay
   - [x] RotaryEncoder
+  - [ ] PCF8574
 
 - Display
-  - [x] Canvas
   - [x] HD44780
   - [x] SH1106
   - [x] SH1107
   - [x] SSD1306
+  - [ ] PCD8544
+  - [ ] ST7302
+  - [ ] ST7565
+  - [ ] IL0373
+  - [ ] SSD1680
+  - [ ] SSD1681
+
+- EEPROM
+  - [ ] AT24C
 
 - I2C
   - [x] Bus (Hardware)
@@ -71,11 +80,12 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [ ] DS18B20
   - [x] GenericPIR
   - [ ] HCSR04
+  - [-] HDC1080
   - [x] HTU21D
   - [x] HTU31D
   - [ ] JSNSR04T
-  - [ ] RCWL9620
   - [x] QMP6988 (only working on I2C::BitBang buses)
+  - [ ] RCWL9620
   - [x] SHT3X
   - [x] SHT4X (new, heater not implemented yet)
   - [x] VL53L0X
