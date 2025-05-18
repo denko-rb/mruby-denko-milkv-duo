@@ -1,5 +1,6 @@
 board = Denko::Board.new
-bus = Denko::I2C::BitBang.new(board: board, pins: {scl: 16, sda: 17})
+bus = Denko::I2C::Bus.new(board: board, index: 0)
+# bus = Denko::I2C::BitBang.new(board: board, pins: {scl: 16, sda: 17})
 oled = Denko::Display::SSD1306.new(bus: bus, rotate: true) # address: 0x3C is default
 
 # Draw some text on the OLED's canvas (a Ruby memory buffer).
