@@ -31,22 +31,28 @@ def print_tph_reading(reading)
 end
 
 #
-# BMP180 sensor over I2C, for temperature and pressure.
+# Most enviro sensors over I2C have the same interface.
 #
 board  = Denko::Board.new
 bus    = Denko::I2C::Bus.new(board: board, index: 0)
-sensor = Denko::Sensor::BMP180.new(bus: bus) # address: 0x77 default
 
-# Enable oversampling for the pressure sensor only (1,2,4, 8).
-# sensor.pressure_samples = 8
+sensor = Denko::Sensor::AHT1X.new(bus: bus) # address: 0x38 default
+# sensor = Denko::Sensor::AHT2X.new(bus: bus) # address: 0x38 default
+# sensor = Denko::Sensor::AHT3X.new(bus: bus) # address: 0x38 default
+# sensor = Denko::Sensor::BME280.new(bus: bus) # address: 0x76 default
+# sensor = Denko::Sensor::BMP180.new(bus: bus) # address: 0x77 default
+# sensor = Denko::Sensor::HDC1080.new(bus: bus) # address: 0x40 default
+# sensor = Denko::Sensor::HTU21D.new(bus: bus) # address: 0x40 default
+# sensor = Denko::Sensor::HTU31D.new(bus: bus) # address: 0x40 default
+# sensor = Denko::Sensor::QMP6988.new(bus: bus) # address: 0x70 default
+# sensor = Denko::Sensor::SHT3X.new(bus: bus) # address: 0x44 default
+# sensor = Denko::Sensor::SHT4X.new(bus: bus) # address: 0x44 default
 
-# Demonstrate helper methods
-result = sensor.read
-puts "Temperature unit helpers: #{sensor.temperature} \xC2\xB0C | #{sensor.temperature_f} \xC2\xB0F | #{sensor.temperature_k} K"
-puts "Pressure unit helpers: #{sensor.pressure} Pa | #{sensor.pressure_atm.round(6)} atm | #{sensor.pressure_bar.round(6)} bar"
-puts
+sensor.on_data do |reading|
+  print_tph_reading(reading)
+end
 
 loop do
-  print_tph_reading(sensor.read)
+  sensor.read
   sleep 5
 end
