@@ -24,7 +24,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] Output
   - [x] Relay
   - [x] RotaryEncoder
-  - [ ] PCF8574
+  - [x] PCF8574
 
 - Display
   - [x] HD44780
