@@ -7,7 +7,7 @@ TEST_DATA = [0, 1, 2, 3, 4, 5, 6, 7]
 
 # Create a simple test component class.
 class SPITester
-  include Denko::SPI::Peripheral::SinglePin
+  include Denko::SPI::Peripheral
 end
 spi_tester = SPITester.new(bus: bus, pin: chip_select)
 

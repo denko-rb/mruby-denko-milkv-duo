@@ -116,8 +116,9 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.rbfiles << "#{ext_lib_dir}/led/base.rb"
   spec.rbfiles << "#{ext_lib_dir}/led/rgb.rb"
   spec.rbfiles << "#{ext_lib_dir}/led/seven_segment.rb"
+  spec.rbfiles << "#{ext_lib_dir}/led/apa102.rb"
 
-  # Moto
+  # Motors
   spec.rbfiles << "#{ext_lib_dir}/motor/servo.rb"
   spec.rbfiles << "#{ext_lib_dir}/motor/a3967.rb"
   spec.rbfiles << "#{ext_lib_dir}/motor/l298.rb"
