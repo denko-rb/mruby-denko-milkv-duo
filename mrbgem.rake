@@ -71,11 +71,14 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.rbfiles << "#{ext_lib_dir}/i2c/bit_bang.rb"
   spec.rbfiles << "#{ext_lib_dir}/i2c/peripheral.rb"
 
-  # SPI Classes (stubs in main lib for now)
-  spec.rbfiles << "#{main_lib_dir}/spi/bus.rb"
-  spec.rbfiles << "#{main_lib_dir}/spi/bit_bang.rb"
-  spec.rbfiles << "#{main_lib_dir}/spi/peripheral.rb"
-  spec.rbfiles << "#{main_lib_dir}/spi/base_register.rb"
+  # SPI Classes
+  spec.rbfiles << "#{ext_lib_dir}/spi/bus_common.rb"
+  spec.rbfiles << "#{ext_lib_dir}/spi/bus.rb"
+  spec.rbfiles << "#{main_lib_dir}/spi/bit_bang.rb" # Still stubbed
+  spec.rbfiles << "#{ext_lib_dir}/spi/peripheral.rb"
+  spec.rbfiles << "#{ext_lib_dir}/spi/base_register.rb"
+  spec.rbfiles << "#{ext_lib_dir}/spi/input_register.rb"
+  spec.rbfiles << "#{ext_lib_dir}/spi/output_register.rb"
 
   # Digital IO (over I2C)
   spec.rbfiles << "#{ext_lib_dir}/digital_io/pcf8574.rb"

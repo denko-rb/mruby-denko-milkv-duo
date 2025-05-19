@@ -1,0 +1,42 @@
+module Denko
+  class Board
+    LSBFIRST_LUT = Array.new(256) do |byte|
+      byte.to_s(2).rjust(8, '0').reverse.to_i(2)
+    end
+
+    def spi_transfer(spi_index, select_pin, write: [], read: 0, frequency: 1_000_000, mode: 0, bit_order: :msbfirst)
+      raise ArgumentError, "no bytes to read or write" if (read == 0) && (write.empty?)
+      raise ArgumentError, "select_pin cannot be nil when reading" if (read != 0) && (select_pin == nil)
+      raise ArgumentError, "hardware SPI only supports mode 0 on Milk-V Duo" unless (mode == 0)
+
+      # Reverse bit order of write bytes if LSBFIRST.
+      if bit_order == :msbfirst
+        write_bytes = write
+      else
+        write_bytes = write.map { |byte| LSBFIRST_LUT[byte] }
+      end
+
+      spi_setup(spi_index, frequency)
+      digital_write(select_pin, 0) if select_pin
+      read_bytes = _spi_transfer(spi_index, write_bytes, read)
+      digital_write(select_pin, 1) if select_pin
+
+      raise ArgumentError, "WiringX SPI error: #{read_bytes}" if read_bytes.class == Integer
+
+      # Reverse bit order of read bytes if LSBFIRST.
+      if bit_order != :msbfirst
+          read_bytes = read_bytes.map { |byte| LSBFIRST_LUT[byte] }
+      end
+
+      self.update(select_pin, read_bytes) if (read > 0 && select_pin)
+    end
+
+    def spi_listen(spi_index, select_pin, read: 0, frequency: nil, mode: nil, bit_order: nil)
+      raise ArgumentError, "Board#spi_listen not implemented on Milk-V Duo"
+    end
+
+    def spi_listeners
+      @spi_listeners ||= Array.new
+    end
+  end
+end

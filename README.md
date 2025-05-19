@@ -10,9 +10,9 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
 ## Component implementation status for parity with denko 0.14:
 
 - AnalogIO
-  - [ ] ADS1100
-  - [ ] ADS1115
-  - [ ] ADS1118
+  - [x] ADS1100
+  - [x] ADS1115
+  - [x] ADS1118
   - [x] Input
   - [x] Joystick
   - [ ] Output (not on Milk-V Duo)
@@ -31,19 +31,26 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] SH1106
   - [x] SH1107
   - [x] SSD1306
-  - [ ] PCD8544
-  - [ ] ST7302
-  - [ ] ST7565
-  - [ ] IL0373
-  - [ ] SSD1680
-  - [ ] SSD1681
+  - [x] PCD8544
+  - [x] ST7302
+  - [x] ST7565
+  - [x] IL0373
+  - [x] SSD1680
+  - [x] SSD1681
 
 - EEPROM
-  - [ ] AT24C
+  - [x] AT24C
 
 - I2C
   - [x] Bus (Hardware)
   - [x] BitBang
+  - [x] Peripheral
+
+- SPI
+  - [x] Bus (Hardware)
+  - [ ] BitBang
+  - [x] InputRegister
+  - [x] OutputRegister
   - [x] Peripheral
 
 - LED
@@ -89,13 +96,6 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] SHT3X
   - [x] SHT4X (new, heater not implemented yet)
   - [x] VL53L0X
-
-- SPI
-  - [ ] Bus (Hardware)
-  - [ ] BitBang
-  - [ ] InputRegister
-  - [ ] OutputRegister
-  - [ ] Peripheral
 
 - UART
   - [ ] Hardware
