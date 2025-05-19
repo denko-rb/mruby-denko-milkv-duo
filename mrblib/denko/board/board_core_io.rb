@@ -49,7 +49,7 @@ module Denko
     # digital_write implemented in C
 
     def digital_read(pin)
-      self.udpate(pin, _digital_read(pin))
+      self.update(pin, _digital_read(pin))
     end
 
     # pwm_write implemented in C
