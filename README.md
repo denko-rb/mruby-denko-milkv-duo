@@ -58,7 +58,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] Base
   - [x] RGB
   - [x] SevenSegment
-  - [ ] WS2812 (only over hardware SPI on Milk-V Duo)
+  - [x] WS2812 (ONLY over hardware SPI on Milk-V Duo)
 
 - Motor
   - [x] A3967 (Stepper driver)

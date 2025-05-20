@@ -7,7 +7,7 @@ module Denko
       # Convert bit order symbol to an integer for C
       bit_order_int = (bit_order == :msbfirst) ? 1 : 0
 
-      read_bytes = _spi_bb_transfer(clock, output, input, select, mode, bit_order_int, read, write)
+      read_bytes = _spi_bb_transfer(clock, output, input, select, mode, bit_order_int, write, read)
 
       raise StandardError, "WiringX SPI error: #{read_bytes}" if read_bytes.class == Integer
 

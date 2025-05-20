@@ -70,8 +70,7 @@ mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   mrb_define_method(mrb, mrb_Denko_Board, "_i2c_bb_write",    mrb_i2c_bb_write,       MRB_ARGS_REQ(4));
 
   // SPI
-  mrb_define_method(mrb, mrb_Denko_Board, "spi_setup",        mrb_spi_setup,          MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, mrb_Denko_Board, "_spi_transfer",    mrb_spi_xfer,           MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, mrb_Denko_Board, "_spi_transfer",    mrb_spi_xfer,           MRB_ARGS_REQ(4));
   mrb_define_method(mrb, mrb_Denko_Board, "spi_ws2812_write", mrb_spi_ws2812_write,   MRB_ARGS_REQ(2));
 
   // Bit-bang SPI

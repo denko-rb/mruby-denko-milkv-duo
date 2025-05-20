@@ -16,9 +16,8 @@ module Denko
         write_bytes = write.map { |byte| LSBFIRST_LUT[byte] }
       end
 
-      spi_setup(spi_index, frequency)
       digital_write(select, 0) if select
-      read_bytes = _spi_transfer(spi_index, write_bytes, read)
+      read_bytes = _spi_transfer(spi_index, frequency, write_bytes, read)
       digital_write(select, 1) if select
 
       raise StandardError, "WiringX SPI error: #{read_bytes}" if read_bytes.class == Integer
