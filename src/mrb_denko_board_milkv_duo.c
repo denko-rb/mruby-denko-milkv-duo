@@ -1,6 +1,12 @@
 // Source from mruby-milkv-duo.
 #include "../ext/mruby-milkv-duo/src/mrb_milkv_duo.c"
 
+static mrb_value
+mrb_milkv_variant(mrb_state *mrb, mrb_value self)
+{
+  return mrb_str_new_cstr(mrb, MILKV_DUO_VARIANT);
+}
+
 void
 mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   // Denko module
@@ -36,6 +42,7 @@ mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   /***************************************************************************/
   //
   // System
+  mrb_define_method(mrb, mrb_Denko_Board, "variant",          mrb_milkv_variant,      MRB_ARGS_REQ(0));
   mrb_define_method(mrb, mrb_Denko_Board, "micro_delay",      mrb_micro_delay,        MRB_ARGS_REQ(1));
 
   // Digital I/O

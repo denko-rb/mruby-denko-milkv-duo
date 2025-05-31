@@ -41,13 +41,26 @@ module Denko
       @map ||= generate_board_map
     end
 
-    # Applies to Duo and Duo256, but NOT DuoS.
-    GPIO_LIST = (0..22).to_a + [25,26,27]
-
     # Use the included duo-pinmux program to map out which pins are muxed to what.
+    # Available pins for WiringX from: https://milkv.io/docs/duo/application-development/wiringx
     def generate_board_map
+      gpio_list = []
+      if ["milkv_duo", "milkv_duo256m"].include? variant
+        # Duo and Duo 256M
+        gpio_list += (0..22).to_a
+        gpio_list += [25,26,27]
+      else
+        # Duo S J3 Header
+        gpio_list += [3,5,7,8,10,11,12,13,15,16,18,19,21,22,23,24,26]
+        # Duo S J4 Header
+        gpio_list += (27..30).to_a
+        gpio_list += (33..36).to_a
+        gpio_list += (39..42).to_a
+        gpio_list += [44,46,48,50]
+      end
+
       map = {}
-      GPIO_LIST.each do |num|
+      gpio_list.each do |num|
         lines = `duo-pinmux -r GP#{num}`.split("\n")
         lines.each do |line|
           if line[0..2] == "[v]"
