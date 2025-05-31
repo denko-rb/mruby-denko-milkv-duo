@@ -46,7 +46,7 @@ module Denko
 
     # Use the included duo-pinmux program to map out which pins are muxed to what.
     def generate_board_map
-      map = []
+      map = {}
       GPIO_LIST.each do |num|
         lines = `duo-pinmux -r GP#{num}`.split("\n")
         lines.each do |line|
