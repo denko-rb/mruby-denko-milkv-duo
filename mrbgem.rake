@@ -5,19 +5,23 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.authors = 'vickash'
   spec.version = Denko::Board::VERSION
 
-  main_lib_dir = "#{dir}/mrblib/denko"
-  ext_lib_dir  = "#{dir}/ext/denko/lib/denko"
+  main_lib_dir  = "#{dir}/mrblib/denko"
+  ext_lib_dir   = "#{dir}/ext/denko/lib/denko"
   behaviors_dir = "#{ext_lib_dir}/behaviors"
 
-  # Essentials (specific to this mrbgem)
+  # Essentials (from this mrbgem)
   spec.rbfiles = [
     "#{dir}/ext/ruby_bcd/lib/bcd.rb",
     "#{main_lib_dir}/version.rb",
+  ]
+
+  # Essentials (from CRuby gem)
+  spec.rbfiles += [
     "#{ext_lib_dir}/helpers/engine_check.rb",
     "#{ext_lib_dir}/helpers/mutex_stub.rb",
   ]
 
-  # Behaviors (shared between main gem and this mrbgem)
+  # Behaviors (from CRuby gem)
   spec.rbfiles += [
     # Pin and component setup behaviors
     "#{behaviors_dir}/lifecycle.rb",
@@ -44,12 +48,16 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
     "#{behaviors_dir}/listener.rb",
   ]
 
-  # Milk-V mruby specific board files
+  # Denko::Board implementation for Milk-V Duo (from this mrbgem)
   spec.rbfiles += Dir.glob("#{main_lib_dir}/board/*")
 
+  #
+  # Peripehral Drivers (from CRuby gem)
+  #
   # AnalogIO
   spec.rbfiles << "#{ext_lib_dir}/analog_io/input_helper.rb"
   spec.rbfiles << "#{ext_lib_dir}/analog_io/input.rb"
+  spec.rbfiles << "#{ext_lib_dir}/analog_io/output.rb"
   spec.rbfiles << "#{ext_lib_dir}/analog_io/potentiometer.rb"
   spec.rbfiles << "#{ext_lib_dir}/analog_io/joystick.rb"
 
