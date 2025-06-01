@@ -4,6 +4,10 @@ module Denko
       byte.to_s(2).rjust(8, '0').reverse.to_i(2)
     end
 
+    def spi_limit
+      4096
+    end
+
     def spi_transfer(spi_index, select, write: [], read: 0, frequency: 1_000_000, mode: 0, bit_order: :msbfirst)
       raise ArgumentError, "no bytes to read or write" if (read == 0) && (write.empty?)
       raise ArgumentError, "select pin cannot be nil when reading" if (read != 0) && (select == nil)
