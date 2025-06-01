@@ -8,12 +8,16 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   # BCD conversion for RTCs
   spec.add_dependency('ruby_bcd', '>= 0.0.0', github: "dafyddcrosby/ruby_bcd", branch: "main")
 
+  duo_lib_dir   = "#{dir}/ext/mruby-milkv-duo/mrblib/duo"
   main_lib_dir  = "#{dir}/mrblib/denko"
   ext_lib_dir   = "#{dir}/ext/denko/lib/denko"
   behaviors_dir = "#{ext_lib_dir}/behaviors"
 
+  # Everything from the base mruby-milkv-duo gem
+  spec.rbfiles = Dir.glob("#{duo_lib_dir}/*")
+
   # Essentials (from this mrbgem)
-  spec.rbfiles = [
+  spec.rbfiles += [
     "#{main_lib_dir}/version.rb",
   ]
 

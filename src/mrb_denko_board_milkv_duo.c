@@ -9,6 +9,9 @@ mrb_milkv_variant(mrb_state *mrb, mrb_value self)
 
 void
 mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
+  // Duo module from mruby-milkv-duo gem.
+  mrb_mruby_milkv_duo_gem_init(mrb);
+
   // Denko module
   struct RClass *mrb_Denko = mrb_define_module(mrb, "Denko");
 
