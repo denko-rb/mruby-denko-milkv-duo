@@ -1,4 +1,4 @@
-spi_index   = 2
+spi_index   = 0
 chip_select = 9
 board       = Denko::Board.new
 bus         = Denko::SPI::Bus.new(board: board, index: spi_index)

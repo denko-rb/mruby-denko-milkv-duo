@@ -10,7 +10,7 @@ COLORS = [RED, GREEN, BLUE, WHITE]
 positions = (0..PIXELS-1).to_a + (1..PIXELS-2).to_a.reverse
 
 board = Denko::Board.new
-bus   = Denko::SPI::Bus.new(board: board, index: 2)
+bus   = Denko::SPI::Bus.new(board: board)
 strip = Denko::LED::WS2812.new(board: bus, pin: SPI_MOSI, length: PIXELS)
 
 loop do

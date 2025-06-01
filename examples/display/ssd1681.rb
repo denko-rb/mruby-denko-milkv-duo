@@ -1,5 +1,5 @@
 board = Denko::Board.new
-bus   = Denko::SPI::Bus.new(board: board, index: 2)
+bus   = Denko::SPI::Bus.new(board: board)
 
 # Must be connected to SPI bus CLK and MOSI pins, plus select, dc, reset and busy.
 epaper = Denko::Display::SSD1681.new(bus: bus, pins: { select: 9, dc: 14, reset: 15 , busy: 16})
