@@ -5,13 +5,15 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.authors = 'vickash'
   spec.version = Denko::Board::VERSION
 
+  # BCD conversion for RTCs
+  spec.add_dependency('ruby_bcd', '>= 0.0.0', github: "dafyddcrosby/ruby_bcd", branch: "main")
+
   main_lib_dir  = "#{dir}/mrblib/denko"
   ext_lib_dir   = "#{dir}/ext/denko/lib/denko"
   behaviors_dir = "#{ext_lib_dir}/behaviors"
 
   # Essentials (from this mrbgem)
   spec.rbfiles = [
-    "#{dir}/ext/ruby_bcd/lib/bcd.rb",
     "#{main_lib_dir}/version.rb",
   ]
 
