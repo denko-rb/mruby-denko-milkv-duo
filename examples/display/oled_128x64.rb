@@ -1,12 +1,16 @@
 board = Denko::Board.new
 bus = Denko::I2C::Bus.new(board: board, index: 0)
 # bus = Denko::I2C::BitBang.new(board: board, pins: {scl: 16, sda: 17})
-oled = Denko::Display::SSD1306.new(bus: bus, rotate: true) # address: 0x3C is default
+oled = Denko::Display::SSD1306.new(bus: bus) # address: 0x3C is default
 
-canvas = oled.canvas
-baseline = 42
+# Transformation features in hardware.
+# oled.reflect_x
+# oled.reflect_y
+oled.rotate
 
 # Draw some text on the OLED's canvas (a Ruby memory buffer).
+canvas = oled.canvas
+baseline = 42
 canvas.text_cursor = 27, baseline+15
 canvas.text "Hello World!"
 

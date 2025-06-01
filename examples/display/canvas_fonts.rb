@@ -1,6 +1,7 @@
 board = Denko::Board.new
 bus = Denko::I2C::Bus.new(board: board, index: 0)
-oled = Denko::Display::SSD1306.new(bus: bus, rotate: true) # address: 0x3C is default
+oled = Denko::Display::SSD1306.new(bus: bus) # address: 0x3C is default
+oled.rotate
 
 canvas = oled.canvas
 
