@@ -5,6 +5,10 @@ module Denko
     PIN_MODES = INPUT_MODES + OUTPUT_MODES
     COMPATIBLE_MODES = [:input, :output, :output_pwm]
 
+    def enabled_pwms
+      @enabled_pwms ||= []
+    end
+
     def set_pin_mode(pin, mode=:input, options={})
       # Is the pin valid?
       raise ArgumentError, "pin: #{pin} is not a valid GPIO" unless valid_gpio(pin)
@@ -19,19 +23,29 @@ module Denko
           raise ArgumentError, "pin: #{pin} is not muxed to a PWM channel"
         end
 
-        # Use given period/frequency, or default to 1 million ns (1kHz frequency).
-        period = 1_000_000
+        # Look for given period or frequency.
+        period = nil
         if options[:period]
           period = options[:period]
         elsif options[:frequency]
           period = (1_000_000_000.0 / options[:frequency]).round
         end
 
-        pwm_set_period(pin, period)
+        # If PWM was already enabled, only change period, and only if given.
+        if enabled_pwms[pin]
+          pwm_set_period(pin, period) if period
+        else
+          # Default period to 1 million ns (1kHz frequency).
+          period ||= 1_000_000
+          puts "starting new pwm instance with period: #{period}"
 
-        # Only normal polarity for now.
-        pwm_set_polarity(pin, 0)
-        pwm_enable(pin, 1)
+          pwm_set_period(pin, period)
+          pwm_set_polarity(pin, 0) # Normal polarity
+          pwm_enable(pin, 1)
+          pwm_write(pin, 0)
+
+          enabled_pwms[pin] = true
+        end
       else
         # Duo only has :input and :output modes.
         # Warn for lack of pull up, pull down, open drain, open source, then fall back.
