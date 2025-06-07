@@ -72,7 +72,7 @@ module Denko
     end
 
     def pin_is_pwm?(pin)
-      map[convert_pin(pin)].to_s[0..2].downcase == "pwm"
+      map[convert_pin(pin)].to_s.downcase.start_with? "pwm"
     end
 
     def update(pin, message)

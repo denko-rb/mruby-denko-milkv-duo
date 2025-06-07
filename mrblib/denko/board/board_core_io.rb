@@ -15,7 +15,7 @@ module Denko
       end
 
       if mode == :output_pwm
-        unless (map[pin] && map[pin].to_s[0..2] == "pwm")
+        unless pin_is_pwm?(pin)
           raise ArgumentError, "pin: #{pin} is not muxed to a PWM channel"
         end
 
@@ -35,11 +35,11 @@ module Denko
       else
         # Duo only has :input and :output modes.
         # Warn for lack of pull up, pull down, open drain, open source, then fall back.
-        if mode.to_s[0..4] == "input" && mode != :input
+        if mode.to_s.start_with?("input") && mode != :input
           puts "WARNING: pin mode #{mode} not available on Milk-V Duo. Falling back to :input"
         end
 
-        if mode.to_s[0..5] == "output" && mode != :output
+        if mode.to_s.start_with?("output") && mode != :output
           puts "WARNING: pin mode #{mode} not available on Milk-V Duo. Falling back to :output"
         end
 
