@@ -37,9 +37,8 @@ module Denko
         else
           # Default period to 1 million ns (1kHz frequency).
           period ||= 1_000_000
-          puts "starting new pwm instance with period: #{period}"
-
           pwm_set_period(pin, period)
+
           pwm_set_polarity(pin, 0) # Normal polarity
           pwm_enable(pin, 1)
           pwm_write(pin, 0)
