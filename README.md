@@ -36,5 +36,5 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 - Edit `MILKV_DUO_VARIANT` in the copied file to match your board: 64m (no suffix), `256m` or `s`
 - Modify the build config further, if needed
 - In `mruby` root: `rake MRUBY_CONFIG=build_config/denko_milkv_duo.rb`
-- When completed, the cross-compiled binaries will be in `mruby/build/milkv_duo/bin`
+- When completed, the cross-compiled binaries will be in `mruby/build/#{MILKV_DUO_VARIANT}/bin`
 - Folow the install instructions above

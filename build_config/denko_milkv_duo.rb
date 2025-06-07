@@ -5,16 +5,18 @@
 # 1) Clone mruby at this commit or later: https://github.com/mruby/mruby/tree/1b39c7d7dab6c37d85a17ec4495a7c4c0c43d217
 # 2) Clone the Milk-V Duo SDK: https://github.com/milkv-duo/duo-sdk (duo-sdk directory should be next to mruby)
 # 3) Copy this file mruby/build_config
-# 4) Edit the constant MILKV_DUO_VARIANT below to match the board you want to build for.
+# 4) Set the constant MILKV_DUO_VARIANT below to match the board you want to build for.
 # 5) From mruby root, run rake MRUBY_CONFIG=build_config/denko_milkv_duo.rb
 # 6) Cross compiled binaries will be in mruby/build/milkv_duo/bin
 #
-MRuby::CrossBuild.new("milkv_duo") do |conf|
-  # Set this string to match your board: milkv_duo, milkv_duo256m, milkv_duos
-  MILKV_DUO_VARIANT = "milkv_duo"
+# Set this string to match your board:
+#   Duo 64M   : milkv_duo
+#   Duo 256M  : milkv_duo256m
+#   Duo S     : milkv_duos
+MILKV_DUO_VARIANT = "milkv_duo"
 
-  # Expect duo-sdk directory is same level as (next to) mruby top-level directory.
-  SDK_BASE = File.expand_path("../../../", File.expand_path(__FILE__)) + "/duo-sdk"
+MRuby::CrossBuild.new(MILKV_DUO_VARIANT) do |conf|
+  SDK_BASE = File.expand_path("../../", __dir__) + "/duo-sdk"
   TOOLCHAIN_BASE = "#{SDK_BASE}/riscv64-linux-musl-x86_64"
   SYSROOT = "#{SDK_BASE}/rootfs"
 
