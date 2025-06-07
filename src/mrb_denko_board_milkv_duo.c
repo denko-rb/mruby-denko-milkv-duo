@@ -32,7 +32,6 @@ mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   define_const(HIGH);
 
   // Save user from calling Duo.setup each script.
-  // Already done in mruby-milkv-duo gem?
   mrb_wx_setup(mrb, mrb_nil_value());
 
   /***************************************************************************/
