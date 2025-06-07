@@ -23,27 +23,27 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
   - [ ] RCWL9620
 
 ## Install Instructions
-- Download the appropriate Buildroot Linux image for your board, from the [official repo](https://github.com/milkv-duo/duo-buildroot-sdk/releases).
-- Using [balenaEtcher](https://www.balena.io/etcher) or similar, flash the image to a micro SD card.
-- Insert the SD card into your Duo and connect it to your computer.
-- Download and unzip the mruby binaries for your board, from the [releases section](https://github.com/denko-rb/mruby-denko-milkv-duo/releases) of this repo.
-- The Milk-V Duo should have created a network interface on your computer, so you can SSH/SCP into it. The default username is `root` and password is `milkv`.
+- Download the appropriate Buildroot Linux image for your board, from the [official repo](https://github.com/milkv-duo/duo-buildroot-sdk/releases)
+- Using [balenaEtcher](https://www.balena.io/etcher) or similar, flash the image to a micro SD card
+- Insert the SD card into your Duo and connect it to your computer
+- Download and unzip the mruby binaries for your board, from the [releases section](https://github.com/denko-rb/mruby-denko-milkv-duo/releases) of this repo
+- The Milk-V Duo should have created a network interface on your computer, so you can SSH/SCP into it. The default username is `root` and password is `milkv`
 - Copy the binaries onto the board:
   ```console
-  # Linux & Recent Macs
+  # Linux and Recent Macs
   scp -O UNZIPPED_BINARY_FOLDER/* root@192.168.42.1:/usr/local/bin
   ```
   ```console
-  # Oleder Macs
+  # Older Macs
   scp UNZIPPED_BINARY_FOLDER/* root@192.168.42.1:/usr/local/bin
   ```
-- SSH into the board with `ssh root@192.168.42.1`.
-- Try the `mirb` shell, or copy over examples from [this](examples) folder, and try them with `mruby FILENAME.rb`.
-- If you have issues with PWM / I2C / SPI, please read the [pinmux](#pinmux) section below.
+- SSH into the board: `ssh root@192.168.42.1`
+- Try the `mirb` shell, or copy over examples from [this](examples) folder, and try them with `mruby FILENAME.rb`
+- If you have issues with PWM / I2C / SPI, see the [Pinmux](#pinmux) section below
 
 ### Pinmux
 
-- Some features of the Duo are multiplexed onto the same pins.
+- Some features of the Duo are multiplexed onto the same pins
 - Use `duo-pinmux` to set them up _before_ using them. See [official docs](https://milkv.io/docs/duo/application-development/pinmux) for more info.
 - **NOTE:** What the documentation refers to as `SPI2` (for Duo and Duo 256M) shows up as `/dev/spidev0` in Linux, so give `index: 0` (or no index at all) to use that hardware SPI. This is also likely the case for `SPI3` on the Duo S, but that is untested yet.
 
