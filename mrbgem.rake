@@ -78,6 +78,7 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   # PulseIO
   spec.rbfiles << "#{ext_lib_dir}/pulse_io/pwm_output.rb"
   spec.rbfiles << "#{ext_lib_dir}/pulse_io/buzzer.rb"
+  spec.rbfiles << "#{ext_lib_dir}/pulse_io/ir_output.rb"
 
   # 1-Wire
   spec.rbfiles << "#{ext_lib_dir}/one_wire/constants.rb"

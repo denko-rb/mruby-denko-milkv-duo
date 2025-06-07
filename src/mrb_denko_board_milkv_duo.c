@@ -63,6 +63,7 @@ mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   mrb_define_method(mrb, mrb_Denko_Board, "pwm_set_polarity", mrb_pwm_set_polarity,   MRB_ARGS_REQ(2));
   mrb_define_method(mrb, mrb_Denko_Board, "pwm_set_period",   mrb_pwm_set_period,     MRB_ARGS_REQ(2));
   mrb_define_method(mrb, mrb_Denko_Board, "pwm_write",        mrb_pwm_set_duty,       MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, mrb_Denko_Board, "tx_wave_ook",      mrb_tx_wave_ook,        MRB_ARGS_REQ(3));
 
   // SARADC
   mrb_define_method(mrb, mrb_Denko_Board, "_analog_read",     mrb_analog_read,        MRB_ARGS_REQ(1));
