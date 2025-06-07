@@ -19,9 +19,14 @@ module Denko
           raise ArgumentError, "pin: #{pin} is not muxed to a PWM channel"
         end
 
-        # Use given period or default to 1 million ns (1kHz frequency).
+        # Use given period/frequency, or default to 1 million ns (1kHz frequency).
         period = 1_000_000
-        period = options[:period] if options[:period]
+        if options[:period]
+          period = options[:period]
+        elsif options[:frequency]
+          period = (1_000_000_000.0 / options[:frequency]).round
+        end
+
         pwm_set_period(pin, period)
 
         # Only normal polarity for now.
