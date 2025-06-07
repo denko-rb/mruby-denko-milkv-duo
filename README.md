@@ -1,6 +1,6 @@
 # mruby-denko-board-milkv-duo
 
-This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board computers. The interface is compatible with the [denko CRuby gem](https://github.com/denko-rb/denko). All interface and peripheral classes included in the mruby build are using source files directly from the CRuby gem.
+This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board computers. The interface is compatible with the [Denko gem](https://github.com/denko-rb/denko) for CRuby. Most interface and peripheral classes are included in this mruby build, using source files directly from the CRuby gem.
 
 ## Supported Milk-V Boards
 - Milk-V Duo 64M
