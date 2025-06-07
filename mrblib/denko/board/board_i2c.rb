@@ -4,9 +4,9 @@ module Denko
     # Allow search in in 8..119 (0x08 to 0x77).
     I2C_ADDRESS_RANGE = (0x08..0x77).to_a
 
-    # Arbitrary 256kB limit for now
+    # Arbitrary 4kB limit for now
     def i2c_limit
-      262144
+      4096
     end
 
     def i2c_handle(index, address)
