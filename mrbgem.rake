@@ -79,6 +79,13 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.rbfiles << "#{ext_lib_dir}/pulse_io/pwm_output.rb"
   spec.rbfiles << "#{ext_lib_dir}/pulse_io/buzzer.rb"
 
+  # 1-Wire
+  spec.rbfiles << "#{ext_lib_dir}/one_wire/constants.rb"
+  spec.rbfiles << "#{ext_lib_dir}/one_wire/helper.rb"
+  spec.rbfiles << "#{ext_lib_dir}/one_wire/bus_enumerator.rb"
+  spec.rbfiles << "#{ext_lib_dir}/one_wire/bus.rb"
+  spec.rbfiles << "#{ext_lib_dir}/one_wire/peripheral.rb"
+
   # I2C
   spec.rbfiles << "#{ext_lib_dir}/i2c/bus_common.rb"
   spec.rbfiles << "#{ext_lib_dir}/i2c/bus.rb"
@@ -147,6 +154,7 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.rbfiles << "#{ext_lib_dir}/sensor/aht.rb"
   spec.rbfiles << "#{ext_lib_dir}/sensor/bme280.rb"
   spec.rbfiles << "#{ext_lib_dir}/sensor/bmp180.rb"
+  spec.rbfiles << "#{ext_lib_dir}/sensor/ds18b20.rb"
   spec.rbfiles << "#{ext_lib_dir}/sensor/hdc1080.rb"
   spec.rbfiles << "#{ext_lib_dir}/sensor/htu21d.rb"
   spec.rbfiles << "#{ext_lib_dir}/sensor/htu31d.rb"

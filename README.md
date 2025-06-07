@@ -66,8 +66,8 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] Servo
 
 - OneWire
-  - [ ] Bus
-  - [ ] Peripheral
+  - [x] Bus
+  - [x] Peripheral
 
 - PulseIO
   - [x] Buzzer
@@ -84,7 +84,7 @@ This mrbgem implements `Denko::Board`, with a similar interface to the [denko CR
   - [x] BME280/BMP280
   - [x] BMP180
   - [ ] DHT
-  - [ ] DS18B20
+  - [x] DS18B20
   - [x] GenericPIR
   - [ ] HCSR04
   - [x] HDC1080

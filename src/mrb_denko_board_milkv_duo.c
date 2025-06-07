@@ -2,8 +2,7 @@
 #include "../ext/mruby-milkv-duo/src/mrb_milkv_duo.c"
 
 static mrb_value
-mrb_milkv_variant(mrb_state *mrb, mrb_value self)
-{
+mrb_milkv_variant(mrb_state *mrb, mrb_value self) {
   return mrb_str_new_cstr(mrb, MILKV_DUO_VARIANT);
 }
 
@@ -82,6 +81,13 @@ mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   // SPI
   mrb_define_method(mrb, mrb_Denko_Board, "_spi_transfer",    mrb_spi_xfer,           MRB_ARGS_REQ(4));
   mrb_define_method(mrb, mrb_Denko_Board, "spi_ws2812_write", mrb_spi_ws2812_write,   MRB_ARGS_REQ(2));
+
+  // Bit-bang 1-Wire
+  mrb_define_method(mrb, mrb_Denko_Board, "_one_wire_reset",     mrb_one_wire_reset,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, mrb_Denko_Board, "one_wire_bit_read",   mrb_one_wire_bit_read,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, mrb_Denko_Board, "one_wire_bit_write",  mrb_one_wire_bit_write,  MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, mrb_Denko_Board, "one_wire_byte_read",  mrb_one_wire_byte_read,  MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, mrb_Denko_Board, "one_wire_byte_write", mrb_one_wire_byte_write, MRB_ARGS_REQ(2));
 
   // Bit-bang SPI
   mrb_define_method(mrb, mrb_Denko_Board, "_spi_bb_transfer", mrb_spi_bb_xfer,        MRB_ARGS_REQ(8));
