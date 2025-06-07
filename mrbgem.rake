@@ -1,166 +1,57 @@
+# This sets Denko::Board::VERSION for the Milk-V, independent of Denko::VERSION.
+# Use it for this mrbgem's overall version.
 require_relative "mrblib/denko/version"
+
+# denko.rb from the CRuby gem requires most of it tree. Each module's .rb file defines
+# an Array constant, with all files for that module, autoloaded by CRuby. With those
+# Arrays defined here, all the same files can be added to the mruby build too.
+require_relative "ext/denko/lib/denko"
 
 MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   spec.license = 'MIT'
   spec.authors = 'vickash'
   spec.version = Denko::Board::VERSION
 
-  # BCD conversion for RTCs
+  # BCD conversion dependency for RTCs
   spec.add_dependency('ruby_bcd', '>= 0.0.0', github: "dafyddcrosby/ruby_bcd", branch: "main")
 
+  # lib dirs for submodules
   duo_lib_dir   = "#{dir}/ext/mruby-milkv-duo/mrblib/duo"
-  main_lib_dir  = "#{dir}/mrblib/denko"
-  ext_lib_dir   = "#{dir}/ext/denko/lib/denko"
-  behaviors_dir = "#{ext_lib_dir}/behaviors"
+  denko_lib_dir = "#{dir}/ext/denko/lib/denko"
 
-  # Everything from the base mruby-milkv-duo gem
+  # Denko::Board directly calls C functions from mruby-milkv-duo, but its
+  # Duo module is used in a few places for convenience, so include its mrblib.
   spec.rbfiles = Dir.glob("#{duo_lib_dir}/*")
 
-  # Essentials (from this mrbgem)
-  spec.rbfiles += [
-    "#{main_lib_dir}/version.rb",
-  ]
+  # Helpers & Behaviors needed early (from CRuby gem)
+  HELPER_FILES.each    { |f| spec.rbfiles << "#{denko_lib_dir}/helpers/#{f[1]}.rb" }
+  BEHAVIORS_FILES.each { |f| spec.rbfiles << "#{denko_lib_dir}/behaviors/#{f[1]}.rb" }
 
-  # Essentials (from CRuby gem)
-  spec.rbfiles += [
-    "#{ext_lib_dir}/helpers/engine_check.rb",
-    "#{ext_lib_dir}/helpers/mutex_stub.rb",
-  ]
-
-  # Behaviors (from CRuby gem)
-  spec.rbfiles += [
-    # Pin and component setup behaviors
-    "#{behaviors_dir}/lifecycle.rb",
-    "#{behaviors_dir}/state.rb",
-    "#{behaviors_dir}/component.rb",
-    "#{behaviors_dir}/single_pin.rb",
-    "#{behaviors_dir}/input_pin.rb",
-    "#{behaviors_dir}/output_pin.rb",
-    "#{behaviors_dir}/multi_pin.rb",
-
-    # Subcomponent behaviors
-    "#{behaviors_dir}/subcomponents.rb",
-    "#{behaviors_dir}/bus_controller.rb",
-    "#{behaviors_dir}/bus_controller_addressed.rb",
-    "#{behaviors_dir}/bus_peripheral.rb",
-    "#{behaviors_dir}/bus_peripheral_addressed.rb",
-    "#{behaviors_dir}/board_proxy.rb",
-
-    # Input and callback behaviors
-    "#{behaviors_dir}/callbacks.rb",
-    "#{behaviors_dir}/reader.rb",
-    "#{behaviors_dir}/threaded.rb",
-    "#{behaviors_dir}/poller.rb",
-    "#{behaviors_dir}/listener.rb",
-  ]
-
-  # Denko::Board implementation for Milk-V Duo (from this mrbgem)
-  spec.rbfiles += Dir.glob("#{main_lib_dir}/board/*")
+  # Denko::Board implementation (from this mrbgem)
+  spec.rbfiles += Dir.glob("#{dir}/mrblib/denko/board/*")
 
   #
-  # Peripehral Drivers (from CRuby gem)
+  # Common peripheral implementation (from CRuby gem)
   #
-  # AnalogIO
-  spec.rbfiles << "#{ext_lib_dir}/analog_io/input_helper.rb"
-  spec.rbfiles << "#{ext_lib_dir}/analog_io/input.rb"
-  spec.rbfiles << "#{ext_lib_dir}/analog_io/output.rb"
-  spec.rbfiles << "#{ext_lib_dir}/analog_io/potentiometer.rb"
-  spec.rbfiles << "#{ext_lib_dir}/analog_io/joystick.rb"
+  # Define parts of DigitalIO early. Some interfaces are bit-bang and depend on them.
+  DIGITAL_IO_EARLY_FILES.each { |f| spec.rbfiles << "#{denko_lib_dir}/digital_io/#{f[1]}.rb" }
 
-  # DigitalIO
-  spec.rbfiles << "#{ext_lib_dir}/digital_io/input.rb"
-  spec.rbfiles << "#{ext_lib_dir}/digital_io/output.rb"
-  spec.rbfiles << "#{ext_lib_dir}/digital_io/button.rb"
-  spec.rbfiles << "#{ext_lib_dir}/digital_io/relay.rb"
-  spec.rbfiles << "#{ext_lib_dir}/digital_io/rotary_encoder.rb"
-  spec.rbfiles << "#{ext_lib_dir}/digital_io/c_bit_bang.rb"
+  # Interfaces
+  I2C_FILES.each      { |f| spec.rbfiles << "#{denko_lib_dir}/i2c/#{f[1]}.rb" }
+  SPI_FILES.each      { |f| spec.rbfiles << "#{denko_lib_dir}/spi/#{f[1]}.rb" }
+  ONE_WIRE_FILES.each { |f| spec.rbfiles << "#{denko_lib_dir}/one_wire/#{f[1]}.rb" }
+  UART_FILES.each     { |f| spec.rbfiles << "#{denko_lib_dir}/uart/#{f[1]}.rb" }
 
-  # PulseIO
-  spec.rbfiles << "#{ext_lib_dir}/pulse_io/pwm_output.rb"
-  spec.rbfiles << "#{ext_lib_dir}/pulse_io/buzzer.rb"
-  spec.rbfiles << "#{ext_lib_dir}/pulse_io/ir_output.rb"
+  # Basic peripherals
+  ANALOG_IO_FILES.each  { |f| spec.rbfiles << "#{denko_lib_dir}/analog_io/#{f[1]}.rb" }
+  DIGITAL_IO_FILES.each { |f| spec.rbfiles << "#{denko_lib_dir}/digital_io/#{f[1]}.rb" }
+  PULSE_IO_FILES.each   { |f| spec.rbfiles << "#{denko_lib_dir}/pulse_io/#{f[1]}.rb" }
 
-  # 1-Wire
-  spec.rbfiles << "#{ext_lib_dir}/one_wire/constants.rb"
-  spec.rbfiles << "#{ext_lib_dir}/one_wire/helper.rb"
-  spec.rbfiles << "#{ext_lib_dir}/one_wire/bus_enumerator.rb"
-  spec.rbfiles << "#{ext_lib_dir}/one_wire/bus.rb"
-  spec.rbfiles << "#{ext_lib_dir}/one_wire/peripheral.rb"
-
-  # I2C
-  spec.rbfiles << "#{ext_lib_dir}/i2c/bus_common.rb"
-  spec.rbfiles << "#{ext_lib_dir}/i2c/bus.rb"
-  spec.rbfiles << "#{ext_lib_dir}/i2c/bit_bang.rb"
-  spec.rbfiles << "#{ext_lib_dir}/i2c/peripheral.rb"
-
-  # SPI Classes
-  spec.rbfiles << "#{ext_lib_dir}/spi/bus_common.rb"
-  spec.rbfiles << "#{ext_lib_dir}/spi/bus.rb"
-  spec.rbfiles << "#{ext_lib_dir}/spi/bit_bang.rb"
-  spec.rbfiles << "#{ext_lib_dir}/spi/peripheral.rb"
-  spec.rbfiles << "#{ext_lib_dir}/spi/base_register.rb"
-  spec.rbfiles << "#{ext_lib_dir}/spi/input_register.rb"
-  spec.rbfiles << "#{ext_lib_dir}/spi/output_register.rb"
-
-  # Digital IO (over I2C)
-  spec.rbfiles << "#{ext_lib_dir}/digital_io/pcf8574.rb"
-
-  # Display
-  spec.rbfiles << "#{ext_lib_dir}/display/hd44780.rb"
-  # Pixel display mixins and helperss
-  spec.rbfiles << "#{ext_lib_dir}/display/pixel_common.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/spi_common.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/spi_epaper_common.rb"
-  # Fonts and Canvas
-  spec.rbfiles << "#{ext_lib_dir}/display/font/bmp_5x7.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/font/bmp_6x8.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/font/bmp_8x16.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/canvas.rb"
-  # OLEDs
-  spec.rbfiles << "#{ext_lib_dir}/display/mono_oled.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/ssd1306.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/sh1106.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/sh1107.rb"
-  # LCDs
-  spec.rbfiles << "#{ext_lib_dir}/display/pcd8544.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/st7302.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/st7565.rb"
-  # E-paper
-  spec.rbfiles << "#{ext_lib_dir}/display/il0373.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/ssd168x.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/ssd1680.rb"
-  spec.rbfiles << "#{ext_lib_dir}/display/ssd1681.rb"
-
-  # EEPROM
-  spec.rbfiles << "#{ext_lib_dir}/eeprom/at24c.rb"
-
-  # LED
-  spec.rbfiles << "#{ext_lib_dir}/led/base.rb"
-  spec.rbfiles << "#{ext_lib_dir}/led/rgb.rb"
-  spec.rbfiles << "#{ext_lib_dir}/led/seven_segment.rb"
-  spec.rbfiles << "#{ext_lib_dir}/led/apa102.rb"
-  spec.rbfiles << "#{ext_lib_dir}/led/ws2812.rb"
-
-  # Motors
-  spec.rbfiles << "#{ext_lib_dir}/motor/servo.rb"
-  spec.rbfiles << "#{ext_lib_dir}/motor/a3967.rb"
-  spec.rbfiles << "#{ext_lib_dir}/motor/l298.rb"
-
-  # RTC
-  spec.rbfiles << "#{ext_lib_dir}/rtc/ds3231.rb"
-
-  # Sensor
-  spec.rbfiles << "#{ext_lib_dir}/sensor/helper.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/generic_pir.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/aht.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/bme280.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/bmp180.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/ds18b20.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/hdc1080.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/htu21d.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/htu31d.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/qmp6988.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/sht3x.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/sht4x.rb"
-  spec.rbfiles << "#{ext_lib_dir}/sensor/vl53l0x.rb"
+  LED_FILES.each        { |f| spec.rbfiles << "#{denko_lib_dir}/led/#{f[1]}.rb" }
+  FONT_FILES.each       { |f| spec.rbfiles << "#{denko_lib_dir}/display/font/#{f[1]}.rb" }
+  DISPLAY_FILES.each    { |f| spec.rbfiles << "#{denko_lib_dir}/display/#{f[1]}.rb" }
+  EEPROM_FILES.each     { |f| spec.rbfiles << "#{denko_lib_dir}/eeprom/#{f[1]}.rb" }
+  MOTOR_FILES.each      { |f| spec.rbfiles << "#{denko_lib_dir}/motor/#{f[1]}.rb" }
+  RTC_FILES.each        { |f| spec.rbfiles << "#{denko_lib_dir}/rtc/#{f[1]}.rb" }
+  SENSOR_FILES.each     { |f| spec.rbfiles << "#{denko_lib_dir}/sensor/#{f[1]}.rb" }
 end
