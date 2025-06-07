@@ -28,13 +28,13 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 - TODO
 
 ## Build Instructions
-- On Ubuntu 24.04, run `sudo apt install wget git make gcc`.
-- Install Ruby 3.3 or later, whether from `apt`, `rbenv` or elsewhere.
-- Clone mruby at [this commit](https://github.com/mruby/mruby/tree/1b39c7d7dab6c37d85a17ec4495a7c4c0c43d217) or later.
-- Clone the [Milk-V Duo SDK](https://github.com/milkv-duo/duo-sdk) so the `duo-sdk` is at the same directory level your cloned `mruby`.
-- Copy the file `build_config/denko_milkv_duo.rb` from this repo into `mruby/build_config`.
-- Edit the `MILKV_DUO_VARIANT` String in the copied file, so it matches the board you are building for: 64m (no suffix), 256m or s.
-- Modify the build config further, as needed.
+- On Ubuntu 24.04, run `sudo apt install wget git make gcc`
+- Install Ruby 3.3 or later, whether from `apt`, `rbenv` or elsewhere
+- Clone mruby at [this commit](https://github.com/mruby/mruby/tree/1b39c7d7dab6c37d85a17ec4495a7c4c0c43d217) or later
+- Clone the [Milk-V Duo SDK](https://github.com/milkv-duo/duo-sdk) so the `duo-sdk` is at the same directory level your cloned `mruby`
+- Copy the file `build_config/denko_milkv_duo.rb` from this repo into `mruby/build_config`
+- Edit `MILKV_DUO_VARIANT` in the copied file, to match your board: 64m (no suffix), 256m or s
+- Modify the build config further, as needed
 - From your `mruby` root, run `rake MRUBY_CONFIG=build_config/denko_milkv_duo.rb`
 - The cross-compiled binaries will be in `mruby/build/milkv_duo/bin` once completed
 - Folow the install instructions above
