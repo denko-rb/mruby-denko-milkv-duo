@@ -1,4 +1,4 @@
-# This sets Denko::Board::VERSION for the Milk-V, independent of Denko::VERSION.
+# This sets Denko::Board::VERSION for the Milk-V Duo, independent of Denko::VERSION.
 # Use it for this mrbgem's overall version.
 require_relative "mrblib/denko/version"
 
@@ -42,7 +42,7 @@ MRuby::Gem::Specification.new('mruby-denko-milkv-duo') do |spec|
   ONE_WIRE_FILES.each { |f| spec.rbfiles << "#{denko_lib_dir}/one_wire/#{f[1]}.rb" }
   UART_FILES.each     { |f| spec.rbfiles << "#{denko_lib_dir}/uart/#{f[1]}.rb" }
 
-  # Basic peripherals
+  # Basic peripherals first, since others may depend on them.
   ANALOG_IO_FILES.each  { |f| spec.rbfiles << "#{denko_lib_dir}/analog_io/#{f[1]}.rb" }
   DIGITAL_IO_FILES.each { |f| spec.rbfiles << "#{denko_lib_dir}/digital_io/#{f[1]}.rb" }
   PULSE_IO_FILES.each   { |f| spec.rbfiles << "#{denko_lib_dir}/pulse_io/#{f[1]}.rb" }
