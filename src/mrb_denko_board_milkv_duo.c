@@ -82,6 +82,9 @@ mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
   mrb_define_method(mrb, mrb_Denko_Board, "_spi_transfer",    mrb_spi_xfer,           MRB_ARGS_REQ(4));
   mrb_define_method(mrb, mrb_Denko_Board, "spi_ws2812_write", mrb_spi_ws2812_write,   MRB_ARGS_REQ(2));
 
+  // Bit-Bang Pulse Input
+  mrb_define_method(mrb, mrb_Denko_Board, "read_ultrasonic",  mrb_read_ultrasonic,    MRB_ARGS_REQ(3));
+
   // Bit-bang 1-Wire
   mrb_define_method(mrb, mrb_Denko_Board, "_one_wire_reset",     mrb_one_wire_reset,      MRB_ARGS_REQ(1));
   mrb_define_method(mrb, mrb_Denko_Board, "one_wire_bit_read",   mrb_one_wire_bit_read,   MRB_ARGS_REQ(1));

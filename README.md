@@ -8,19 +8,17 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 - Milk-V Duo S
 
 ## Limiations (relative to Denko on CRuby)
-- UART hardware is available, but mruby support is not implemented yet.
+- Milk-V Duo has no on-board DACs (digital-to-analog converters), but the `AnalogIO::Output` class is included, and should work with external DACs, when support for those is added in the future.
+- Milk-V Duo has no on-board EEPROM. `EEPROM::Board` is automatically included, but will not work.
+- UART hardware is available, but mruby support not implemented yet.
   - The `UART` classes are automatically included in the build, but will not work
   - Consequently, `Sensor::JSNSR04T` also will not work for now
-- Milk-V Duo has no on-board DACs (digital-to-analog converters). The `AnalogIO::Output` class is included, and should work with external DACs, when support for those is added in the future.
-- Milk-V Duo has no on-board EEPROM. `EEPROM::Board` is automatically included, but will not work.
-- `Sensor::QMP6988` works only on `I2C::BitBang` buses, not hardware I2C. Unclear why.
+- `Board#spi_listen`, `Board#spi_bb_listen` are not implemented yet, so `SPI::InputRegister#listen` will not work
+- I2C0 is fixed at 400 kHz and I2C1 is fixed at 100 kHz. These may be reconfigurable if you build your own Linux image from [here](https://github.com/milkv-duo/duo-buildroot-sdk)
 
-## Peripherals to be implemented or tested for 0.15.0 release:
-
-- Sensor
-  - [ ] DHT
-  - [ ] HCSR04
-  - [ ] RCWL9620
+## Known Issues
+- `Sensor::QMP6988` works only on `I2C::BitBang` buses, not on hardware I2C
+- `Sensor::RCWL960` does not work at all
 
 ## Install Instructions
 - Download the appropriate Buildroot Linux image for your board, from the [official repo](https://github.com/milkv-duo/duo-buildroot-sdk/releases)
