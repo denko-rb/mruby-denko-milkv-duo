@@ -2,9 +2,6 @@ PIN    = 16
 board  = Denko::Board.new
 sensor = Denko::Sensor::DHT.new(board: board, pin: PIN)
 
-# Need a small delay before first reading.
-sleep 0.1
-
 def print_tph_reading(reading)
   elements = []
 
