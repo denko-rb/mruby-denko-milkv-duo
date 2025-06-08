@@ -7,22 +7,21 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 - Milk-V Duo 256M
 - Milk-V Duo S
 
-## Limiations (relative to Denko on CRuby)
-- mruby does not have Threads. Methods like `#poll` and `#blink` will not work, since they cannot start a thread in the background to update the peripheral state
-- `Board#digital_listen` is implemented, in a separate **C** thread that collects pin change events. However, it cannot update `DigitalIO` instances in the background. `Board#handle_listeners` must be called periodically in your application loop to apply these events.
+## Limiations (relative CRuby Denko)
+- mruby does not have `Thread`. Methods like `#poll` and `#blink` will not work, since they cannot start their own threads in the background to update peripheral state, like they do on CRuby.
+- `Board#digital_listen` is implemented however, but in a **C** thread that collects pin change events. It still cannot update `DigitalIO` instances in the background, so `Board#handle_listeners` must be called periodically in your application loop to apply these events.
 - `Board#analog_listen` is not implemented at all, as it would be too slow.
-- `Board#spi_listen`, `Board#spi_bb_listen` are not implemented, so `SPI::InputRegister#listen` will not work
-- Milk-V Duo has no on-board DACs (digital-to-analog converters), but the `AnalogIO::Output` class is included, and should work with external DACs, when support for these is added in the future
-- Milk-V Duo has no on-board EEPROM. `EEPROM::Board` is automatically included, but will not work
-- UART hardware is available, but mruby support not implemented yet
-  - The `UART` classes are automatically included in the build, but will not work yet
-  - Consequently, `Sensor::JSNSR04T` also will not work yet
-- I2C0 is fixed at 400 kHz and I2C1 is fixed at 100 kHz. These may be reconfigurable if you build your own Linux image from [here](https://github.com/milkv-duo/duo-buildroot-sdk)
+- `Board#spi_listen`, is not implemented. `SPI::InputRegister#listen` will not work.
+- Milk-V Duo has no on-board digital-to-analog converters (DACs), but the `AnalogIO::Output` class is included. It should work with external DACs, when support for these is added.
+- Milk-V Duo has no on-board EEPROM. `EEPROM::Board` is automatically included, but will not work.
+- UART hardware is available, but mruby support is not implemented yet.
+  - The `UART` classes are automatically included in the build, but will not work yet.
+  - Consequently, `Sensor::JSNSR04T` also will not work yet.
+- `/dev/i2c-0` is fixed at 400 kHz and `/dev/i2c-1` is fixed at 100 kHz. These may be reconfigurable, if you build your own Linux image from [here](https://github.com/milkv-duo/duo-buildroot-sdk).
 
 ## Known Issues
-- `Sensor::QMP6988` works only on `I2C::BitBang` buses, not on hardware I2C
-- `Sensor::RCWL960` does not work at all
-- `Sensor::DHT` needs a small delay (about 100ms) after initialization, before first reading, or first reading will fail.
+- `Sensor::QMP6988` works only on `I2C::BitBang` buses, not on hardware I2C.
+- `Sensor::RCWL960` does not work at all.
 
 ## Install Instructions
 - Download the appropriate Buildroot Linux image for your board, from the [official repo](https://github.com/milkv-duo/duo-buildroot-sdk/releases)
