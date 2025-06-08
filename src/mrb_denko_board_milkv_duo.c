@@ -84,6 +84,7 @@ mrb_mruby_denko_milkv_duo_gem_init(mrb_state* mrb) {
 
   // Bit-Bang Pulse Input
   mrb_define_method(mrb, mrb_Denko_Board, "read_ultrasonic",  mrb_read_ultrasonic,    MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, mrb_Denko_Board, "read_pulses_us",   mrb_read_pulses_us,     MRB_ARGS_REQ(3));
 
   // Bit-bang 1-Wire
   mrb_define_method(mrb, mrb_Denko_Board, "_one_wire_reset",     mrb_one_wire_reset,      MRB_ARGS_REQ(1));
