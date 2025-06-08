@@ -2,12 +2,12 @@
 
 This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board computers. Its interface is compatible with the Denko [CRuby gem](https://github.com/denko-rb/denko), so most of the interface and peripheral classes from that gem are directly usable (and included) in this mruby build.
 
-## Supported Milk-V Boards
+### Supported Milk-V Boards
 - Milk-V Duo 64M
 - Milk-V Duo 256M
 - Milk-V Duo S
 
-## Install Instructions
+## Installation
 - Download the appropriate Buildroot Linux image for your board, from the [official repo](https://github.com/milkv-duo/duo-buildroot-sdk/releases).
 - Using [balenaEtcher](https://www.balena.io/etcher) or a similar tool, flash the image to a micro SD card.
 - Insert the SD card into your board, and connect it to your computer.
@@ -23,10 +23,29 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 - Try the `mirb` shell, or copy over examples from [this](examples) folder, and try them with `mruby FILENAME.rb`
 - If you have issues with PWM / I2C / SPI, see the [Pinmux](#pinmux) section below.
 
-### Pinmux
+## Known Issues
+- `Sensor::QMP6988` works only on `I2C::BitBang` buses, not on hardware I2C.
+- `Sensor::RCWL9620` does not work at all.
+
+## Limitations (relative to CRuby Denko)
+- mruby does not have `Thread`. Methods like `#poll` and `#blink` will not work, since they cannot start their own threads in the background to update peripheral state, like they do on CRuby.
+- `Board#digital_listen` is implemented however, but in a **C** thread that collects pin change events.
+  - It cannot update `DigitalIO` instances in the background, so `Board#handle_listeners` must be called periodically, in your application loop, to apply pin change events.
+  - `Board#digital_listen` does not use interrupts. It polls at ~10 KHz.
+  - Peripherals like `RotaryEncoder` will not be as accurate as they are on [denko-piboard](https://github.com/denko-rb/denko-piboard).
+- `Board#analog_listen` is not implemented at all, as it would be too slow.
+- `Board#spi_listen` is not implemented. `SPI::InputRegister#listen` will not work.
+- Milk-V Duo has no on-board digital-to-analog converters (DACs), but the `AnalogIO::Output` class is included. It should work with external DACs, when support for these is added.
+- Milk-V Duo has no on-board EEPROM. `EEPROM::Board` is automatically included, but will not work.
+- UART hardware is available, but mruby support is not implemented yet.
+  - The `UART` classes are automatically included in the build, but will not work yet.
+  - Consequently, `Sensor::JSNSR04T` also will not work yet.
+- `/dev/i2c-0` is fixed at 400 kHz and `/dev/i2c-1` is fixed at 100 kHz. These are reconfigurable, if you build your own Linux image from [here](https://github.com/milkv-duo/duo-buildroot-sdk).
+
+## Pinmux
 
 - Some pins on the Duo can perform multiple functions, but only one at a time (multiplexing).
-- The default setup at boot, (for the Duo and Duo 256M) provides:
+- The default setup at boot (for the Duo and Duo 256M) provides:
   - 2 Hardware PWMs on **GP4** and **GP5** (up to 9 possible)
   - 2 Hardware I2Cs on **GP0,GP1** and **GP11,GP10** (up to 3 possible)
   - 2 Hardware UARTs on **GP2,GP3** (boot console) and **GP12+GP13** (up to 5 possible)
@@ -47,22 +66,3 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 - In `mruby` root: `rake MRUBY_CONFIG=build_config/denko_milkv_duo.rb`
 - When completed, the cross-compiled binaries will be in `mruby/build/#{MILKV_DUO_VARIANT}/bin`
 - Folow the install instructions above.
-
-## Known Issues
-- `Sensor::QMP6988` works only on `I2C::BitBang` buses, not on hardware I2C.
-- `Sensor::RCWL9620` does not work at all.
-
-## Limitations (relative to CRuby Denko)
-- mruby does not have `Thread`. Methods like `#poll` and `#blink` will not work, since they cannot start their own threads in the background to update peripheral state, like they do on CRuby.
-- `Board#digital_listen` is implemented however, but in a **C** thread that collects pin change events.
-  - It cannot update `DigitalIO` instances in the background, so `Board#handle_listeners` must be called periodically, in your application loop, to apply pin change events.
-  - `Board#digital_listen` does not use interrupts. It polls at ~10 KHz.
-  - Peripherals like `RotaryEncoder` will not be as accurate as they are on [denko-piboard](https://github.com/denko-rb/denko-piboard).
-- `Board#analog_listen` is not implemented at all, as it would be too slow.
-- `Board#spi_listen` is not implemented. `SPI::InputRegister#listen` will not work.
-- Milk-V Duo has no on-board digital-to-analog converters (DACs), but the `AnalogIO::Output` class is included. It should work with external DACs, when support for these is added.
-- Milk-V Duo has no on-board EEPROM. `EEPROM::Board` is automatically included, but will not work.
-- UART hardware is available, but mruby support is not implemented yet.
-  - The `UART` classes are automatically included in the build, but will not work yet.
-  - Consequently, `Sensor::JSNSR04T` also will not work yet.
-- `/dev/i2c-0` is fixed at 400 kHz and `/dev/i2c-1` is fixed at 100 kHz. These may be reconfigurable, if you build your own Linux image from [here](https://github.com/milkv-duo/duo-buildroot-sdk).
