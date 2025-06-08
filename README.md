@@ -24,7 +24,7 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 
 ## Known Issues
 - `Sensor::QMP6988` works only on `I2C::BitBang` buses, not on hardware I2C.
-- `Sensor::RCWL960` does not work at all.
+- `Sensor::RCWL9620` does not work at all.
 
 ## Install Instructions
 - Download the appropriate Buildroot Linux image for your board, from the [official repo](https://github.com/milkv-duo/duo-buildroot-sdk/releases)
