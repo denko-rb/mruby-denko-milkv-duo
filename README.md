@@ -9,7 +9,10 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 
 ## Limitations (relative to CRuby Denko)
 - mruby does not have `Thread`. Methods like `#poll` and `#blink` will not work, since they cannot start their own threads in the background to update peripheral state, like they do on CRuby.
-- `Board#digital_listen` is implemented however, but in a **C** thread that collects pin change events. It still cannot update `DigitalIO` instances in the background, so `Board#handle_listeners` must be called periodically in your application loop to apply these events.
+- `Board#digital_listen` is implemented however, but in a **C** thread that collects pin change events.
+  - It cannot update `DigitalIO` instances in the background, Call `Board#handle_listeners` periodically to apply pin change events.
+  - `Board#digital_listen` does not use interrupts. It polls at ~10 KHz.
+  - Peripherals like `RotaryEncoder` will not be as accurate as they are on [denko-piboard](https://github.com/denko-rb/denko-piboard).
 - `Board#analog_listen` is not implemented at all, as it would be too slow.
 - `Board#spi_listen`, is not implemented. `SPI::InputRegister#listen` will not work.
 - Milk-V Duo has no on-board digital-to-analog converters (DACs), but the `AnalogIO::Output` class is included. It should work with external DACs, when support for these is added.
