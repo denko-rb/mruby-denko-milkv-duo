@@ -59,7 +59,7 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 ## Build Instructions
 - On Ubuntu 24.04: `sudo apt install wget git make gcc`
 - Install Ruby 3.3 or later, from `apt`, `rbenv` or elsewhere.
-- Clone mruby at [this commit](https://github.com/mruby/mruby/tree/1b39c7d7dab6c37d85a17ec4495a7c4c0c43d217) or later.
+- Clone mruby at [this commit](https://github.com/mruby/mruby/tree/b5197c22f69a5bec230d4c92e715cedff0a1bc55) or later.
 - Clone the [Milk-V Duo SDK](https://github.com/milkv-duo/duo-sdk), so `duo-sdk` and `mruby` are in the same directory.
 - Copy the [build config](build_config/denko_milkv_duo.rb) from this repo into `mruby/build_config`
 - Edit `MILKV_DUO_VARIANT` in the copied file to match your board: 64M, 256M or S.
