@@ -30,7 +30,8 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 ## Limitations (relative to CRuby Denko)
 - mruby does not have `Thread`. Methods like `#poll` and `#blink` will not work, since they cannot start their own threads in the background to update peripheral state, like they do on CRuby.
 - `Board#digital_listen` is implemented however, but in a **C** thread that collects pin change events.
-  - It cannot update `DigitalIO` instances in the background, so `Board#handle_listeners` must be called periodically, in your application loop, to apply pin change events.
+  - It still cannot update `DigitalIO` instances (and run callbacks) in the background.
+  - `Board#handle_listeners` must be called periodically, in your application loop, to apply pin changes and run callbacks.
   - `Board#digital_listen` does not use interrupts. It polls at ~10 KHz.
   - Peripherals like `RotaryEncoder` will not be as accurate as they are on [denko-piboard](https://github.com/denko-rb/denko-piboard).
 - `Board#analog_listen` is not implemented at all, as it would be too slow.
@@ -53,15 +54,15 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
   - 12 GPIOs on **GP14-GP22** and **GP25-GP27** (up to 26 possible)
   - **Note**: GP26 and GP27 are also connected to the SARADC, and can be used as analog inputs.
 - Use the `duo-pinmux` tool to customize these to suit your needs. See official documentation [here](https://milkv.io/docs/duo/application-development/pinmux).
-- **Note:** What the diagrams refer to as `SPI2` (for Duo and Duo 256M) becomes `/dev/spidev0` in Linux, so give `index: 0` (or no index at all) to use it. This is likely the same for `SPI3` on the Duo S, but that is untested yet.
+- **Note:** What the diagrams refer to as `SPI2` (for Duo and Duo 256M) and `SPI3` (for the Duo S) both become `/dev/spidev0` in Linux, so give `index: 0` (or no index at all) to use the only SPI available.
 
 ## Build Instructions
 - On Ubuntu 24.04: `sudo apt install wget git make gcc`
 - Install Ruby 3.3 or later, from `apt`, `rbenv` or elsewhere.
 - Clone mruby at [this commit](https://github.com/mruby/mruby/tree/1b39c7d7dab6c37d85a17ec4495a7c4c0c43d217) or later.
 - Clone the [Milk-V Duo SDK](https://github.com/milkv-duo/duo-sdk), so `duo-sdk` and `mruby` are in the same directory.
-- Copy the file `build_config/denko_milkv_duo.rb` from this repo into `mruby/build_config`
-- Edit `MILKV_DUO_VARIANT` in the copied file to match your board: 64M (no suffix), 256M or S.
+- Copy the [build config](build_config/denko_milkv_duo.rb) from this repo into `mruby/build_config`
+- Edit `MILKV_DUO_VARIANT` in the copied file to match your board: 64M, 256M or S.
 - Modify the build config as neeeded.
 - In `mruby` root: `rake MRUBY_CONFIG=build_config/denko_milkv_duo.rb`
 - When completed, the cross-compiled binaries will be in `mruby/build/#{MILKV_DUO_VARIANT}/bin`
