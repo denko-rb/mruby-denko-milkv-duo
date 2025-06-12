@@ -46,20 +46,20 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 ## Pinmux
 Some pins on the Duo can perform multiple functions, but only one at a time (multiplexing).
 
-### Default
-The default multiplexing setup at boot (for the Duo and Duo 256M) is:
+### Default (at Boot) Multiplexing Setup
 
 ![Milk-V Duo Default Pinout](images/milkv-duo-pinout.svg)
 
 **Notes:**
 - The Linux boot console uses `UART4` by default.
-- What this diagram (and the official docs) call `SPI2` (or `SPI3` for the Duo S) is the only SPI devices available. As a result, it becomes `/dev/spidev0` in Linux (not 2 or 3). Always give `index: 0`, or no index at all (0 is default) when initializing.
+- Hardware `SPI2` (or `SPI3` on the Duo S) is the only usable SPI device available. It becomes `/dev/spidev0` in both cases. When initializing `Denko::SPI::Bus` give no index at all (default 0), or `index: 0`.
 
-###  Remuxing
-- View the current pinmux setup at any time with `duo-pinmux -l` or by calling `Board#map` from mruby.
+### Remultiplexing
+- View the current multiplexing setup at any time with `duo-pinmux -l` or by calling `Board#map` from mruby.
 - Use `duo-pinmux` to remux pins as needed. See official documentation [here](https://milkv.io/docs/duo/application-development/pinmux).
-- **Notes:**
-  - Changes made by `duo-pinmux` are not saved across reboots.
+**Notes:**
+  - Unlike most Linux systems, remuxing does **not** require a reboot to take effect.
+  - However, changes made by `duo-pinmux` are not saved across reboots.
   - GP26 and GP27 must be muxed to their default GPIO functions for the SARADC (analog input) to work.
 
 ## Build Instructions
