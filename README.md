@@ -57,6 +57,7 @@ Some pins on the Duo can perform multiple functions, but only one at a time (mul
 ### Remultiplexing
 - View the current multiplexing setup at any time with `duo-pinmux -l` or by calling `Board#map` from mruby.
 - Use `duo-pinmux` to remux pins as needed. See official documentation [here](https://milkv.io/docs/duo/application-development/pinmux).
+
 **Notes:**
   - Unlike most Linux systems, remuxing does **not** require a reboot to take effect.
   - However, changes made by `duo-pinmux` are not saved across reboots.
