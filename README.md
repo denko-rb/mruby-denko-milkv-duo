@@ -30,31 +30,37 @@ This mrbgem implements `Denko::Board` for the Milk-V Duo series of single board 
 ## Limitations (relative to CRuby Denko)
 - mruby does not have `Thread`. Methods like `#poll` and `#blink` will not work, since they cannot start their own threads in the background to update peripheral state, like they do on CRuby.
 - `Board#digital_listen` is implemented however, but in a **C** thread that collects pin change events.
-  - It still cannot update `DigitalIO` instances (and run callbacks) in the background.
-  - `Board#handle_listeners` must be called periodically, in your application loop, to apply pin changes and run callbacks.
-  - `Board#digital_listen` does not use interrupts. It polls at ~10 KHz.
+  - It does not use interrupts, but polls, aiming for ~10 kHz.
   - Peripherals like `RotaryEncoder` will not be as accurate as they are on [denko-piboard](https://github.com/denko-rb/denko-piboard).
+  - It still cannot update `DigitalIO` instances and run callbacks in the background.
+  - Do this by calling `Board#handle_listeners` periodically, in your application loop.
 - `Board#analog_listen` is not implemented at all, as it would be too slow.
 - `Board#spi_listen` is not implemented. `SPI::InputRegister#listen` will not work.
 - Milk-V Duo has no on-board digital-to-analog converters (DACs), but the `AnalogIO::Output` class is included. It should work with external DACs, when support for these is added.
 - Milk-V Duo has no on-board EEPROM. `EEPROM::Board` is automatically included, but will not work.
 - UART hardware is available, but mruby support is not implemented yet.
   - The `UART` classes are automatically included in the build, but will not work yet.
-  - Consequently, `Sensor::JSNSR04T` also will not work yet.
+  - Consequently, `Sensor::JSNSR04T` also will not work.
 - `/dev/i2c-0` is fixed at 400 kHz and `/dev/i2c-1` is fixed at 100 kHz. These are reconfigurable, if you build your own Linux image from [here](https://github.com/milkv-duo/duo-buildroot-sdk).
 
 ## Pinmux
+Some pins on the Duo can perform multiple functions, but only one at a time (multiplexing).
 
-- Some pins on the Duo can perform multiple functions, but only one at a time (multiplexing).
-- The default setup at boot (for the Duo and Duo 256M) provides:
-  - 2 Hardware PWMs on **GP4** and **GP5** (up to 9 possible)
-  - 2 Hardware I2Cs on **GP0,GP1** and **GP11,GP10** (up to 3 possible)
-  - 2 Hardware UARTs on **GP2,GP3** (boot console) and **GP12+GP13** (up to 5 possible)
-  - 1 hardware SPI on **GP6,GP7,GP8,GP9** (only 1 possible)
-  - 12 GPIOs on **GP14-GP22** and **GP25-GP27** (up to 26 possible)
-  - **Note**: GP26 and GP27 are also connected to the SARADC, and can be used as analog inputs.
-- Use the `duo-pinmux` tool to customize these to suit your needs. See official documentation [here](https://milkv.io/docs/duo/application-development/pinmux).
-- **Note:** What the diagrams refer to as `SPI2` (for Duo and Duo 256M) and `SPI3` (for the Duo S) both become `/dev/spidev0` in Linux, so give `index: 0` (or no index at all) to use the only SPI available.
+### Default
+The default multiplexing setup at boot (for the Duo and Duo 256M) is:
+
+![Milk-V Duo Default Pinout](images/milkv-duo-pinout.svg)
+
+**Notes:**
+- The Linux boot console uses `UART4` by default.
+- What this diagram (and the official docs) call `SPI2` (or `SPI3` for the Duo S) is the only SPI devices available. As a result, it becomes `/dev/spidev0` in Linux (not 2 or 3). Always give `index: 0`, or no index at all (0 is default) when initializing.
+
+###  Remuxing
+- View the current pinmux setup at any time with `duo-pinmux -l` or by calling `Board#map` from mruby.
+- Use `duo-pinmux` to remux pins as needed. See official documentation [here](https://milkv.io/docs/duo/application-development/pinmux).
+- **Notes:**
+  - Changes made by `duo-pinmux` are not saved across reboots.
+  - GP26 and GP27 must be muxed to their default GPIO functions for the SARADC (analog input) to work.
 
 ## Build Instructions
 - On Ubuntu 24.04: `sudo apt install wget git make gcc`
