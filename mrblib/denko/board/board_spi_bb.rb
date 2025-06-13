@@ -1,8 +1,12 @@
 module Denko
   class Board
-    def spi_bb_transfer(select, clock: -1, input: -1, output: -1, write: [], read: 0, frequency: nil, mode: nil, bit_order: nil)
-      raise ArgumentError, "no bytes to read or write" if (read == 0) && (write.empty?)
-      raise ArgumentError, "select pin cannot be nil when reading" if (read != 0) && (select == nil)
+    def spi_bb_transfer(select, clock: nil, input: -1, output: -1, write: [], read: 0, frequency: nil, mode: nil, bit_order: nil)
+      input  = -1 unless input
+      output = -1 unless output
+      raise ArgumentError, "clock: pin must be given" unless clock
+      raise ArgumentError, "input: or output: pin must be given" if (input == -1) && (output == -1)
+      raise ArgumentError, "select: pin must be given when reading" if (read != 0) && (select == nil)
+      raise ArgumentError, "no bytes given to read or write" if (read == 0) && (write.empty?)
 
       # Convert bit order symbol to an integer for C
       bit_order_int = (bit_order == :msbfirst) ? 1 : 0
