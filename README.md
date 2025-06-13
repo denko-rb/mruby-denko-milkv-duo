@@ -4,7 +4,7 @@
   <img src="images/demo.jpg" width="800" alt="mruby-denko-milkv-duo Demo">
 </p>
 
-This mrbgem simplifies electronics programming on the Milk-V Duo series of single board computers, using mruby. Its `Denko::Board` interface is compatible with the Denko [CRuby gem](https://github.com/denko-rb/denko), so its peripheral drivers/classe are reused as-is, and included in the the mruby build. There are about [50 implemented](https://github.com/denko-rb/denko/blob/master/PERIPHERALS.md) so far.
+This mrbgem simplifies electronics programming on the Milk-V Duo series of single board computers, using mruby. Its `Denko::Board` interface is compatible with the [CRuby gem](https://github.com/denko-rb/denko), so those peripheral drivers/classe are used as-is, and included in the the mruby build. About [50](https://github.com/denko-rb/denko/blob/master/PERIPHERALS.md) are implemented so far.
 
 ### Supported Milk-V Boards
 - Milk-V Duo 64M
