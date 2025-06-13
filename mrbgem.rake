@@ -1,6 +1,6 @@
 # This sets Denko::Board::VERSION for the Milk-V Duo, independent of Denko::VERSION.
 # Use it for this mrbgem's overall version.
-require_relative "mrblib/denko/version"
+require_relative "mrblib/denko/board/version"
 
 # denko.rb from the CRuby gem requires most of it tree. Each module's .rb file defines
 # an Array constant, with all files for that module, autoloaded by CRuby. With those
