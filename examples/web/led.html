@@ -14,7 +14,7 @@
       function updateRectColor() {
         const rect = document.getElementById("led-circle");
         const ledState = rect.getAttribute("data-led-state");
-        rect.style.backgroundColor = ledState === "1" ? "blue" : "gray";
+        rect.style.backgroundColor = ledState === "0" ? "gray" : "blue";
       }
 
       // Initialize on page load
@@ -24,8 +24,8 @@
 
       function toggleLED() {
         const rect = document.getElementById("led-circle");
-        const currentLEDState = rect.getAttribute("data-led-state") === "1" ? 1 : 0;
-        const newLEDState = currentLEDState === 1 ? 0 : 1;
+        const currentLEDState = rect.getAttribute("data-led-state") === "0" ? 0 : 1;
+        const newLEDState = currentLEDState === 0 ? 1 : 0;
 
         fetch(`/led?state=${newLEDState}`)
           .then((response) => response.json())

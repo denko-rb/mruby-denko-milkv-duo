@@ -55,13 +55,13 @@ loop do
 
     # Change the state of the actual LED.
     if new_state
-      new_state == "1" ? led.on : led.off
+      new_state == "0" ? led.off : led.on
     end
 
     # JSON response
     response = render_json_200(led.state)
     client.syswrite(response)
-  else
+  elsif path_and_query == "/"
     # Default page. HTML response.
     response = render_html_200(led.state)
     client.syswrite(response)
