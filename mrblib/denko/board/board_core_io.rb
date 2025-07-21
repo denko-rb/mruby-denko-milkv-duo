@@ -1,6 +1,6 @@
 module Denko
   class Board
-    INPUT_MODES  = [:input, :input_pullup, :input_pulldown]
+    INPUT_MODES  = [:input, :input_pullup, :input_pulldown, :input_adc]
     OUTPUT_MODES = [:output, :output_pwm, :output_open_drain, :output_open_source]
     PIN_MODES = INPUT_MODES + OUTPUT_MODES
     COMPATIBLE_MODES = [:input, :output, :output_pwm]
